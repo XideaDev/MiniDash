@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minidash 导航+探针全功能一体化原型</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['"SF Mono"', 'ui-monospace', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --bg: #090a0c;
+      --card: #121316;
+      --card-border: rgba(255, 255, 255, 0.08);
+      --card-hover: rgba(255, 255, 255, 0.14);
+    }
+    body {
+      background-color: var(--bg);
+      color: #f3f4f6;
+    }
+    .panel-card {
+      background-color: var(--card);
+      border: 1px solid var(--card-border);
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .panel-card:hover {
+      border-color: var(--card-hover);
+    }
+    .pulse-online {
+      box-shadow: 0 0 10px rgba(16, 185, 129, 0.6);
+      animation: pulse-ring 2.5s infinite;
+    }
+    @keyframes pulse-ring {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.9); }
+    }
+  </style>
+</head>
+<body class="min-h-screen antialiased selection:bg-neutral-800 selection:text-white">
+
+  <!-- 顶部控制面板 -->
+  <aside class="sticky top-0 z-50 border-b border-white/10 bg-[#090a0c]/85 backdrop-blur-xl px-4 py-3">
+    <div class="mx-auto flex max-w-7xl items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="size-6 rounded-md bg-white text-black font-bold text-xs flex items-center justify-center">M</div>
+        <span class="font-bold tracking-tight text-sm text-white">Minidash 一体化架构</span>
+        <span class="rounded bg-white/10 px-2 py-0.5 text-[10px] text-neutral-400 font-mono">探针 100% 完整保留</span>
+      </div>
+
+      <!-- 方案切换 -->
+      <div class="flex items-center gap-2 text-xs">
+        <div class="flex rounded-lg border border-white/10 bg-white/5 p-1">
+          <button onclick="switchMode('1')" id="btn-1" class="rounded-md px-3 py-1 font-medium bg-white text-black transition-all">
+            方案 1：画卷首屏流 (主推)
+          </button>
+          <button onclick="switchMode('2')" id="btn-2" class="rounded-md px-3 py-1 font-medium text-neutral-400 hover:text-white transition-all">
+            方案 2：宿主服务拓扑流
+          </button>
+          <button onclick="switchMode('3')" id="btn-3" class="rounded-md px-3 py-1 font-medium text-neutral-400 hover:text-white transition-all">
+            方案 3：分屏锚点流
+          </button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- 方案 1：画卷首屏流 (首屏融合常用服务导航，向下全量展现完整探针指标)               -->
+  <!-- ========================================================================= -->
+  <div id="view-1" class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-10">
+    
+    <!-- 1. 顶部常用服务导航区 (精致 Bento，直达高频服务) -->
+    <section class="space-y-4">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <div class="flex items-center gap-2">
+          <h2 class="text-sm font-bold tracking-tight text-white flex items-center gap-2">
+            <span>🚀 常用服务 URL 导航</span>
+            <span class="rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.2 text-[10px] font-mono">8 服务全健康</span>
+          </h2>
+        </div>
+        <div class="flex gap-2 text-xs font-mono">
+          <button class="text-neutral-400 hover:text-white transition-colors">全部 (8)</button>
+          <span class="text-neutral-700">·</span>
+          <button class="text-neutral-400 hover:text-white transition-colors">核心开发</button>
+          <span class="text-neutral-700">·</span>
+          <button class="text-neutral-400 hover:text-white transition-colors">存储影音</button>
+        </div>
+      </div>
+
+      <!-- 导航卡片流 (精致、现代、带延迟与状态) -->
+      <div class="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+        <a href="#" class="panel-card group rounded-xl p-3.5 flex flex-col justify-between h-28 hover:-translate-y-0.5">
+          <div class="flex items-start justify-between">
+            <div class="size-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center font-bold text-xs text-white">GT</div>
+            <span class="size-1.5 rounded-full bg-emerald-500"></span>
+          </div>
+          <div>
+            <div class="flex items-center justify-between text-xs font-semibold text-white">
+              <span>Gitea 代码库</span>
+              <span class="text-[10px] text-neutral-500 font-mono group-hover:text-white transition-colors">24ms ↗</span>
+            </div>
+            <p class="text-[11px] text-neutral-400 truncate mt-0.5">git.5956.net</p>
+          </div>
+        </a>
+
+        <a href="#" class="panel-card group rounded-xl p-3.5 flex flex-col justify-between h-28 hover:-translate-y-0.5">
+          <div class="flex items-start justify-between">
+            <div class="size-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center font-bold text-xs text-white">NC</div>
+            <span class="size-1.5 rounded-full bg-emerald-500"></span>
+          </div>
+          <div>
+            <div class="flex items-center justify-between text-xs font-semibold text-white">
+              <span>Nextcloud 网盘</span>
+              <span class="text-[10px] text-neutral-500 font-mono group-hover:text-white transition-colors">42ms ↗</span>
+            </div>
+            <p class="text-[11px] text-neutral-400 truncate mt-0.5">cloud.5956.net</p>
+          </div>
+        </a>
+
+        <a href="#" class="panel-card group rounded-xl p-3.5 flex flex-col justify-between h-28 hover:-translate-y-0.5">
+          <div class="flex items-start justify-between">
+            <div class="size-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center font-bold text-xs text-white">JF</div>
+            <span class="size-1.5 rounded-full bg-emerald-500"></span>
+          </div>
+          <div>
+            <div class="flex items-center justify-between text-xs font-semibold text-white">
+              <span>Jellyfin 影视</span>
+              <span class="text-[10px] text-neutral-500 font-mono group-hover:text-white transition-colors">38ms ↗</span>
+            </div>
+            <p class="text-[11px] text-neutral-400 truncate mt-0.5">media.5956.net</p>
+          </div>
+        </a>
+
+        <a href="#" class="panel-card group rounded-xl p-3.5 flex flex-col justify-between h-28 hover:-translate-y-0.5">
+          <div class="flex items-start justify-between">
+            <div class="size-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center font-bold text-xs text-white">VW</div>
+            <span class="size-1.5 rounded-full bg-emerald-500"></span>
+          </div>
+          <div>
+            <div class="flex items-center justify-between text-xs font-semibold text-white">
+              <span>Vaultwarden</span>
+              <span class="text-[10px] text-neutral-500 font-mono group-hover:text-white transition-colors">18ms ↗</span>
+            </div>
+            <p class="text-[11px] text-neutral-400 truncate mt-0.5">pass.5956.net</p>
+          </div>
+        </a>
+
+        <a href="#" class="panel-card group rounded-xl p-3.5 flex flex-col justify-between h-28 hover:-translate-y-0.5">
+          <div class="flex items-start justify-between">
+            <div class="size-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center font-bold text-xs text-white">DC</div>
+            <span class="size-1.5 rounded-full bg-emerald-500"></span>
+          </div>
+          <div>
+            <div class="flex items-center justify-between text-xs font-semibold text-white">
+              <span>Portainer</span>
+              <span class="text-[10px] text-neutral-500 font-mono group-hover:text-white transition-colors">14 Cont ↗</span>
+            </div>
+            <p class="text-[11px] text-neutral-400 truncate mt-0.5">docker.5956.net</p>
+          </div>
+        </a>
+
+        <a href="#" class="panel-card group rounded-xl p-3.5 flex flex-col justify-between h-28 hover:-translate-y-0.5">
+          <div class="flex items-start justify-between">
+            <div class="size-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center font-bold text-xs text-white">QB</div>
+            <span class="size-1.5 rounded-full bg-amber-400"></span>
+          </div>
+          <div>
+            <div class="flex items-center justify-between text-xs font-semibold text-white">
+              <span>qBittorrent</span>
+              <span class="text-[10px] text-amber-400 font-mono group-hover:text-white transition-colors">下行 18M ↗</span>
+            </div>
+            <p class="text-[11px] text-neutral-400 truncate mt-0.5">qb.5956.net</p>
+          </div>
+        </a>
+      </div>
+    </section>
+
+    <!-- 2. 全球拓扑地图与节点分布 (当前探针核心资产，完整展现) -->
+    <section class="panel-card rounded-2xl p-5 space-y-4">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <span class="size-2 rounded-full bg-emerald-500 pulse-online"></span>
+          <h3 class="text-sm font-semibold text-white">全球节点平面拓扑分布</h3>
+          <span class="rounded bg-white/10 px-2 py-0.5 text-[10px] font-mono text-neutral-400">FLAT MATRIX · 1 在线 · 1 地区</span>
+        </div>
+        <div class="flex items-center gap-4 text-xs font-mono text-neutral-400">
+          <span>🇸🇬 SG (新加坡) · 1 节点</span>
+          <span>总带宽吞吐: ↓ 1.4 MB/s · ↑ 820 KB/s</span>
+        </div>
+      </div>
+
+      <!-- 模拟交互式节点地图区域 -->
+      <div class="relative h-64 w-full rounded-xl bg-black/40 border border-white/5 overflow-hidden flex items-center justify-center">
+        <!-- 点阵背景 -->
+        <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(#ffffff 1px, transparent 1px); background-size: 20px 20px;"></div>
+        
+        <!-- 新加坡发光节点光斑与卡片 -->
+        <div class="relative z-10 flex flex-col items-center">
+          <div class="relative flex items-center justify-center">
+            <span class="absolute size-8 rounded-full bg-emerald-500/20 animate-ping"></span>
+            <span class="size-3.5 rounded-full bg-emerald-500 shadow-lg shadow-emerald-500/80"></span>
+          </div>
+          <div class="mt-2.5 rounded-lg border border-white/15 bg-neutral-900/90 backdrop-blur-md px-3 py-1.5 text-center shadow-xl">
+            <p class="font-bold text-xs text-white flex items-center gap-1.5">
+              <span>🇸🇬 OCR-AMD2-SG</span>
+              <span class="size-1.5 rounded-full bg-emerald-500"></span>
+            </p>
+            <p class="text-[10px] text-neutral-400 font-mono mt-0.5">CPU 14% · 内存 35% · 延迟 28ms</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. 完整节点状态列表与硬件规格卡片 (100% 保留探针数据) -->
+    <section class="space-y-4">
+      <div class="flex items-center justify-between border-b border-white/10 pb-3">
+        <h3 class="text-sm font-bold tracking-tight text-white flex items-center gap-2">
+          <span>🖥️ 纳管节点与实时遥测</span>
+          <span class="text-xs text-neutral-400 font-normal">秒级监控心跳已连接</span>
+        </h3>
+        <span class="text-xs font-mono text-emerald-400">1 / 1 节点在线</span>
+      </div>
+
+      <!-- 节点完整卡片 (带多维硬件、时序速率与 Ping 延迟条目) -->
+      <div class="panel-card rounded-2xl p-5 space-y-5">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-white/10 pb-4">
+          <div class="flex items-center gap-3.5">
+            <div class="size-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-lg">🇸🇬</div>
+            <div>
+              <div class="flex items-center gap-2.5">
+                <span class="font-bold text-sm text-white">OCR-AMD2-SG</span>
+                <span class="rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2 py-0.5 text-[10px] font-mono">在线</span>
+                <span class="text-xs text-neutral-500 font-mono">Ubuntu 24.04 · 6.17.0-1020-oracle</span>
+              </div>
+              <p class="text-xs text-neutral-400 font-mono mt-1">AMD EPYC 7J13 64-Core (2 核) · 1.0 GB RAM · 48 GB SSD · 运行 9 天</p>
+            </div>
+          </div>
+
+          <!-- 实时网络速率与连接状态 -->
+          <div class="flex items-center gap-6 font-mono text-xs">
+            <div>
+              <p class="text-neutral-500 text-[10px]">网络下行</p>
+              <p class="text-emerald-400 font-semibold text-sm">↓ 1.4 MB/s</p>
+            </div>
+            <div>
+              <p class="text-neutral-500 text-[10px]">网络上行</p>
+              <p class="text-sky-400 font-semibold text-sm">↑ 820 KB/s</p>
+            </div>
+            <div>
+              <p class="text-neutral-500 text-[10px]">TCP 连接</p>
+              <p class="text-white font-semibold text-sm">24</p>
+            </div>
+            <div>
+              <p class="text-neutral-500 text-[10px]">系统进程</p>
+              <p class="text-white font-semibold text-sm">111</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- 3项资源条形进度与占比仪表 -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-xs font-mono">
+              <span class="text-neutral-400">CPU 使用率</span>
+              <span class="text-white font-semibold">14.2%</span>
+            </div>
+            <div class="h-2 w-full rounded-full bg-white/5 overflow-hidden">
+              <div class="h-full bg-emerald-500 rounded-full" style="width: 14.2%"></div>
+            </div>
+            <p class="text-[10px] text-neutral-500 font-mono">Load: 0.00 / 0.01 / 0.00</p>
+          </div>
+
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-xs font-mono">
+              <span class="text-neutral-400">物理内存</span>
+              <span class="text-white font-semibold">352 MB (35%)</span>
+            </div>
+            <div class="h-2 w-full rounded-full bg-white/5 overflow-hidden">
+              <div class="h-full bg-sky-500 rounded-full" style="width: 35%"></div>
+            </div>
+            <p class="text-[10px] text-neutral-500 font-mono">总计 1000 MB · Swap: 45 KB / 4 GB</p>
+          </div>
+
+          <div class="space-y-1.5">
+            <div class="flex justify-between text-xs font-mono">
+              <span class="text-neutral-400">系统存储 (/dev/sda1)</span>
+              <span class="text-white font-semibold">6.9 GB (14%)</span>
+            </div>
+            <div class="h-2 w-full rounded-full bg-white/5 overflow-hidden">
+              <div class="h-full bg-violet-500 rounded-full" style="width: 14%"></div>
+            </div>
+            <p class="text-[10px] text-neutral-500 font-mono">总计 51.9 GB · 剩余 45.0 GB 可用</p>
+          </div>
+        </div>
+
+        <!-- 网络延迟 Ping 测速卡片行 (保留现有关键主干网络探测) -->
+        <div class="rounded-xl bg-white/[0.02] border border-white/5 p-3.5 space-y-2">
+          <div class="flex items-center justify-between text-[11px] font-mono text-neutral-400">
+            <span>关键主干线路延迟 (Ping Tasks)</span>
+            <span class="text-emerald-400">零丢包 · 100% 线路健康</span>
+          </div>
+          <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div class="rounded-lg bg-white/5 p-2.5">
+              <p class="text-[10px] text-neutral-500 font-mono">中国电信 163</p>
+              <p class="text-sm font-semibold font-mono text-emerald-400 mt-0.5">32 ms</p>
+            </div>
+            <div class="rounded-lg bg-white/5 p-2.5">
+              <p class="text-[10px] text-neutral-500 font-mono">中国联通 4837</p>
+              <p class="text-sm font-semibold font-mono text-emerald-400 mt-0.5">48 ms</p>
+            </div>
+            <div class="rounded-lg bg-white/5 p-2.5">
+              <p class="text-[10px] text-neutral-500 font-mono">中国移动 CMI</p>
+              <p class="text-sm font-semibold font-mono text-emerald-400 mt-0.5">28 ms</p>
+            </div>
+            <div class="rounded-lg bg-white/5 p-2.5">
+              <p class="text-[10px] text-neutral-500 font-mono">Cloudflare 1.1.1.1</p>
+              <p class="text-sm font-semibold font-mono text-emerald-400 mt-0.5">2.4 ms</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4. 24小时负荷时段热力图矩阵与多维占比 (保留高阶遥测) -->
+    <section class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+      <div class="panel-card rounded-2xl p-5 space-y-3">
+        <div class="flex items-center justify-between text-xs">
+          <span class="font-semibold text-white">时段负荷活动热力矩阵 (Activity Heatmap)</span>
+          <span class="font-mono text-neutral-400 text-[10px]">最近 24 小时</span>
+        </div>
+        <p class="text-xs text-neutral-400">各时段 CPU 密集活跃周期洞察：</p>
+        <!-- 24 小时热力格 -->
+        <div class="grid grid-cols-12 gap-1.5 pt-2">
+          <div class="h-7 rounded bg-emerald-500/20" title="00:00 - 5%"></div>
+          <div class="h-7 rounded bg-emerald-500/20" title="02:00 - 4%"></div>
+          <div class="h-7 rounded bg-emerald-500/20" title="04:00 - 6%"></div>
+          <div class="h-7 rounded bg-emerald-500/30" title="06:00 - 8%"></div>
+          <div class="h-7 rounded bg-emerald-500/40" title="08:00 - 12%"></div>
+          <div class="h-7 rounded bg-emerald-500/60" title="10:00 - 18%"></div>
+          <div class="h-7 rounded bg-emerald-500/70" title="12:00 - 22%"></div>
+          <div class="h-7 rounded bg-emerald-500/80" title="14:00 - 25%"></div>
+          <div class="h-7 rounded bg-emerald-500/60" title="16:00 - 16%"></div>
+          <div class="h-7 rounded bg-emerald-500/50" title="18:00 - 14%"></div>
+          <div class="h-7 rounded bg-emerald-500/40" title="20:00 - 11%"></div>
+          <div class="h-7 rounded bg-emerald-500/30" title="22:00 - 9%"></div>
+        </div>
+      </div>
+
+      <div class="panel-card rounded-2xl p-5 space-y-3">
+        <div class="flex items-center justify-between text-xs">
+          <span class="font-semibold text-white">当前计费周期配额 (Traffic Allowance)</span>
+          <span class="font-mono text-neutral-400 text-[10px]">重置日: 每月 1 日</span>
+        </div>
+        <div class="flex items-end justify-between pt-2">
+          <div>
+            <p class="text-2xl font-bold font-mono text-white">42.5 <span class="text-xs font-normal text-neutral-400">GB 已用</span></p>
+            <p class="text-xs text-neutral-400 font-mono mt-1">剩余 957.5 GB / 1000 GB 配额</p>
+          </div>
+          <span class="rounded-full bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 px-2.5 py-1 text-xs font-mono">健康 4.2%</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- 方案 2：宿主服务拓扑流 (服务与探针节点深度绑定，看清每台 VPS 承载的服务)        -->
+  <!-- ========================================================================= -->
+  <div id="view-2" class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8 hidden">
+    <header class="border-b border-white/10 pb-4">
+      <h1 class="text-2xl font-bold tracking-tight text-white">基础设施节点与服务承载拓扑</h1>
+      <p class="text-xs text-neutral-400 mt-1">以物理/云节点为核心，清晰展现每台服务器底层硬件及其上托管的所有独立应用</p>
+    </header>
+
+    <!-- 节点一：OCR-AMD2-SG 展开式卡片 -->
+    <div class="panel-card rounded-2xl p-6 space-y-6">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-white/10 pb-5">
+        <div class="flex items-center gap-4">
+          <div class="size-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-xl">🇸🇬</div>
+          <div>
+            <div class="flex items-center gap-2">
+              <h2 class="text-base font-bold text-white">OCR-AMD2-SG</h2>
+              <span class="rounded-full bg-emerald-500/10 text-emerald-400 px-2.5 py-0.5 text-xs font-mono">活跃在线</span>
+            </div>
+            <p class="text-xs text-neutral-400 font-mono mt-1">168.107.81.167 · AMD EPYC (2 核) · 1GB RAM · 48GB SSD</p>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-4 gap-4 font-mono text-center text-xs">
+          <div class="bg-white/5 p-2 rounded-lg">
+            <span class="text-neutral-500 text-[10px] block">CPU</span>
+            <span class="font-bold text-white">14.2%</span>
+          </div>
+          <div class="bg-white/5 p-2 rounded-lg">
+            <span class="text-neutral-500 text-[10px] block">RAM</span>
+            <span class="font-bold text-white">352M</span>
+          </div>
+          <div class="bg-white/5 p-2 rounded-lg">
+            <span class="text-neutral-500 text-[10px] block">NET IN</span>
+            <span class="font-bold text-emerald-400">1.4 M/s</span>
+          </div>
+          <div class="bg-white/5 p-2 rounded-lg">
+            <span class="text-neutral-500 text-[10px] block">UPTIME</span>
+            <span class="font-bold text-white">9 天</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 该节点上部署的服务列表 (直达链接) -->
+      <div class="space-y-3">
+        <h3 class="text-xs font-semibold text-neutral-400 font-mono uppercase tracking-wider">该节点上部署的服务 URL (Hosted Services)</h3>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3">
+          <a href="#" class="rounded-xl border border-white/10 bg-white/5 p-3.5 hover:border-white/20 transition-all flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="size-2 rounded-full bg-emerald-500"></span>
+              <div>
+                <p class="text-xs font-semibold text-white">Gitea 代码库</p>
+                <p class="text-[10px] text-neutral-400 font-mono">git.5956.net</p>
+              </div>
+            </div>
+            <span class="text-xs text-neutral-500">↗</span>
+          </a>
+
+          <a href="#" class="rounded-xl border border-white/10 bg-white/5 p-3.5 hover:border-white/20 transition-all flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="size-2 rounded-full bg-emerald-500"></span>
+              <div>
+                <p class="text-xs font-semibold text-white">Nextcloud 网盘</p>
+                <p class="text-[10px] text-neutral-400 font-mono">cloud.5956.net</p>
+              </div>
+            </div>
+            <span class="text-xs text-neutral-500">↗</span>
+          </a>
+
+          <a href="#" class="rounded-xl border border-white/10 bg-white/5 p-3.5 hover:border-white/20 transition-all flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="size-2 rounded-full bg-emerald-500"></span>
+              <div>
+                <p class="text-xs font-semibold text-white">Vaultwarden</p>
+                <p class="text-[10px] text-neutral-400 font-mono">pass.5956.net</p>
+              </div>
+            </div>
+            <span class="text-xs text-neutral-500">↗</span>
+          </a>
+
+          <a href="#" class="rounded-xl border border-white/10 bg-white/5 p-3.5 hover:border-white/20 transition-all flex items-center justify-between">
+            <div class="flex items-center gap-2.5">
+              <span class="size-2 rounded-full bg-emerald-500"></span>
+              <div>
+                <p class="text-xs font-semibold text-white">Portainer</p>
+                <p class="text-[10px] text-neutral-400 font-mono">docker.5956.net</p>
+              </div>
+            </div>
+            <span class="text-xs text-neutral-500">↗</span>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ========================================================================= -->
+  <!-- 方案 3：分屏锚点流 (顶部快捷跳转导航、节点集群、延迟驾驶舱，三位一体)         -->
+  <!-- ========================================================================= -->
+  <div id="view-3" class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8 hidden">
+    <!-- 快捷锚点控制 -->
+    <div class="flex items-center justify-between border-b border-white/10 pb-4">
+      <div>
+        <h1 class="text-xl font-bold tracking-tight text-white">一体化监控中心与导航面板</h1>
+        <p class="text-xs text-neutral-400 mt-0.5">全量探针指标与服务直达</p>
+      </div>
+
+      <div class="flex gap-2">
+        <a href="#view-1" onclick="switchMode('1')" class="rounded-lg bg-white/10 px-3 py-1.5 text-xs text-neutral-300 hover:text-white">回首屏模式</a>
+      </div>
+    </div>
+
+    <div class="p-8 text-center border border-dashed border-white/15 rounded-2xl text-neutral-400 text-xs">
+      <p class="text-sm font-semibold text-white mb-2">多标签与锚点并存模式</p>
+      <p>支持将服务导航与节点深度指标以 Tabs 或滚动锚点形式快速穿梭，确保任意设备上都能一键在“点服务”与“查负载”之间无缝切换。</p>
+    </div>
+  </div>
+
+  <script>
+    function switchMode(idx) {
+      [1, 2, 3].forEach(i => {
+        const v = document.getElementById(`view-${i}`);
+        const b = document.getElementById(`btn-${i}`);
+        if (String(i) === idx) {
+          v.classList.remove('hidden');
+          b.classList.add('bg-white', 'text-black');
+          b.classList.remove('text-neutral-400');
+        } else {
+          v.classList.add('hidden');
+          b.classList.remove('bg-white', 'text-black');
+          b.classList.add('text-neutral-400');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

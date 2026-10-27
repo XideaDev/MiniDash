@@ -42,7 +42,7 @@ export function NodeSpecs({ node }: NodeSpecsProps) {
   return (
     <div className="space-y-3.5">
       {/* 1. 顶部全景控制栏：国旗、节点名称、在线指示灯、Agent 版本、地理坐标与实时遥测指标胶囊 */}
-      <div className="flex flex-col gap-3 rounded-[2px] border border-border/80 bg-card/80 p-3 shadow-2xs backdrop-blur-xs sm:p-3.5 lg:flex-row lg:items-center lg:justify-between">
+      <div className="flex flex-col gap-3 rounded-2xl border border-border/80 bg-card/80 p-3 shadow-2xs backdrop-blur-xs sm:p-3.5 lg:flex-row lg:items-center lg:justify-between">
         {/* 左侧：主机标识与属性徽章 */}
         <div className="flex min-w-0 flex-wrap items-center gap-2 sm:gap-2.5">
           <Country node={node} />
@@ -52,13 +52,13 @@ export function NodeSpecs({ node }: NodeSpecsProps) {
           <Status node={node} />
 
           {node.group && (
-            <Badge className="rounded-[2px] text-xs font-medium bg-secondary text-secondary-foreground border-transparent">
+            <Badge className="rounded-2xl text-xs font-medium bg-secondary text-secondary-foreground border-transparent">
               {node.group}
             </Badge>
           )}
 
           {node.agent_version && (
-            <Badge className="rounded-[2px] font-mono text-xs text-foreground/80 border-border/70 bg-transparent">
+            <Badge className="rounded-2xl font-mono text-xs text-foreground/80 border-border/70 bg-transparent">
               v{node.agent_version}
             </Badge>
           )}
@@ -73,12 +73,12 @@ export function NodeSpecs({ node }: NodeSpecsProps) {
         {/* 右侧：节点核心网络标识与规格概括 */}
         <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-muted-foreground">
           {node.ip && (
-            <div className="flex items-center gap-1 rounded-[1px] border border-border/60 bg-muted/30 px-2 py-0.5">
+            <div className="flex items-center gap-1 rounded-full border border-border/60 bg-muted/30 px-2 py-0.5">
               <span className="text-muted-foreground/70">IP:</span>
               <span className="text-foreground font-medium">{node.ip}</span>
             </div>
           )}
-          <div className="flex items-center gap-1 rounded-[1px] border border-border/60 bg-muted/30 px-2 py-0.5">
+          <div className="flex items-center gap-1 rounded-full border border-border/60 bg-muted/30 px-2 py-0.5">
             <span className="text-muted-foreground/70">规格:</span>
             <span className="text-foreground font-medium">
               {node.cpu_cores}C · {bytes(node.mem_total)} · {bytes(node.disk_total)}
@@ -90,7 +90,7 @@ export function NodeSpecs({ node }: NodeSpecsProps) {
       {/* 2. 工控资产规格卡片矩阵：4 格结构化展示静态配置与服务档案 */}
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {/* 卡片 A：系统与计算架构 */}
-        <div className="rounded-[2px] border border-border/70 bg-card/60 p-3 shadow-2xs backdrop-blur-xs transition-colors hover:border-border">
+        <div className="rounded-2xl border border-border/70 bg-card/60 p-3 shadow-2xs backdrop-blur-xs transition-colors hover:border-border">
           <div className="flex items-center gap-2 border-b border-border/40 pb-2 text-xs font-semibold text-foreground">
             <Server className="size-3.5 text-primary" />
             <span>系统与计算架构</span>
@@ -118,7 +118,7 @@ export function NodeSpecs({ node }: NodeSpecsProps) {
         </div>
 
         {/* 卡片 B：硬件物理总容量 */}
-        <div className="rounded-[2px] border border-border/70 bg-card/60 p-3 shadow-2xs backdrop-blur-xs transition-colors hover:border-border">
+        <div className="rounded-2xl border border-border/70 bg-card/60 p-3 shadow-2xs backdrop-blur-xs transition-colors hover:border-border">
           <div className="flex items-center gap-2 border-b border-border/40 pb-2 text-xs font-semibold text-foreground">
             <Cpu className="size-3.5 text-primary" />
             <span>硬件物理总容量</span>
@@ -146,7 +146,7 @@ export function NodeSpecs({ node }: NodeSpecsProps) {
         </div>
 
         {/* 卡片 C：网络服务与配额 */}
-        <div className="rounded-[2px] border border-border/70 bg-card/60 p-3 shadow-2xs backdrop-blur-xs transition-colors hover:border-border">
+        <div className="rounded-2xl border border-border/70 bg-card/60 p-3 shadow-2xs backdrop-blur-xs transition-colors hover:border-border">
           <div className="flex items-center gap-2 border-b border-border/40 pb-2 text-xs font-semibold text-foreground">
             <Activity className="size-3.5 text-primary" />
             <span>网络计划与配额</span>
@@ -178,7 +178,7 @@ export function NodeSpecs({ node }: NodeSpecsProps) {
         </div>
 
         {/* 卡片 D：服务周期与资费 */}
-        <div className="rounded-[2px] border border-border/70 bg-card/60 p-3 shadow-2xs backdrop-blur-xs transition-colors hover:border-border">
+        <div className="rounded-2xl border border-border/70 bg-card/60 p-3 shadow-2xs backdrop-blur-xs transition-colors hover:border-border">
           <div className="flex items-center gap-2 border-b border-border/40 pb-2 text-xs font-semibold text-foreground">
             <Calendar className="size-3.5 text-primary" />
             <span>服务周期与资费</span>
@@ -199,7 +199,7 @@ export function NodeSpecs({ node }: NodeSpecsProps) {
                 {daysLeft !== null && daysLeft <= 15 && (
                   <Badge
                     className={cn(
-                      "h-4.5 px-1.5 text-[11px] font-medium rounded-[1px]",
+                      "h-4.5 px-1.5 text-[11px] font-medium rounded-full",
                       daysLeft <= 3
                         ? "border-destructive/40 bg-destructive/15 text-destructive font-semibold"
                         : "border-border/60 bg-muted/60 text-muted-foreground"
@@ -222,7 +222,7 @@ export function NodeSpecs({ node }: NodeSpecsProps) {
 
       {/* 3. 节点公开介绍与机房说明（公开可见） */}
       {node.public_remark && (
-        <div className="flex items-start gap-2.5 rounded-[2px] border border-border/70 bg-card/60 p-3 text-xs text-muted-foreground shadow-2xs backdrop-blur-xs">
+        <div className="flex items-start gap-2.5 rounded-2xl border border-border/70 bg-card/60 p-3 text-xs text-muted-foreground shadow-2xs backdrop-blur-xs">
           <Info className="mt-0.5 size-3.5 shrink-0 text-primary opacity-80" />
           <div className="space-y-0.5">
             <span className="font-semibold text-foreground">节点说明与机房公告</span>
@@ -233,7 +233,7 @@ export function NodeSpecs({ node }: NodeSpecsProps) {
 
       {/* 4. 管理员私有备忘信息（仅管理员登录时存在） */}
       {node.remark && (
-        <div className="flex items-start gap-2 rounded-[2px] border border-border/60 bg-muted/30 px-3 py-2 text-xs text-muted-foreground">
+        <div className="flex items-start gap-2 rounded-2xl border border-border/60 bg-muted/30 px-3 py-2 text-xs text-muted-foreground">
           <Shield className="mt-0.5 size-3.5 shrink-0 opacity-70" />
           <p className="leading-relaxed whitespace-pre-wrap">{node.remark}</p>
         </div>

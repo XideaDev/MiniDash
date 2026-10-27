@@ -228,11 +228,11 @@ export function Globe({
     : {}
 
   return (
-    <Card className="animate-fade-in gap-0 rounded-[2px] border border-border/80 bg-card p-4 shadow-xs">
+    <Card className="animate-fade-in gap-0 rounded-3xl border border-border/80 bg-card/80 p-5 shadow-xs backdrop-blur-md">
       {/* 头部标题与控制栏 */}
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border/60 pb-3">
         <div className="flex items-center gap-2.5">
-          <span className="flex size-6 items-center justify-center rounded-[2px] border border-border/60 bg-muted/60 text-foreground">
+          <span className="flex size-6 items-center justify-center rounded-lg border border-border/60 bg-muted/60 text-foreground">
             <GlobeIcon className="size-3.5" />
           </span>
           <div>
@@ -240,7 +240,7 @@ export function Globe({
               <h3 className="text-sm font-semibold tracking-tight text-foreground">
                 全球节点平面拓扑分布
               </h3>
-              <Badge className="h-4.5 rounded-[2px] border border-border/70 bg-muted/30 px-1.5 text-[11px] font-mono text-muted-foreground uppercase tracking-wider">
+              <Badge className="h-5 rounded-full border border-border/70 bg-muted/40 px-2 text-[10px] font-mono text-muted-foreground uppercase tracking-wider">
                 FLAT MATRIX
               </Badge>
             </div>
@@ -255,7 +255,7 @@ export function Globe({
           <Button
             variant="ghost"
             size="sm"
-            className="h-7 gap-1 rounded-[2px] px-2 text-xs"
+            className="h-7 gap-1 rounded-2xl px-2 text-xs"
             onClick={() => onSelectRegion(null)}
           >
             <Maximize2 className="size-3" />
@@ -270,7 +270,7 @@ export function Globe({
         <div
           ref={containerRef}
           onClick={() => setActiveCard(null)}
-          className="relative z-30 col-span-12 flex items-center justify-center rounded-[2px] border border-border/40 bg-muted/15 p-2 select-none lg:col-span-8"
+          className="relative z-30 col-span-12 flex items-center justify-center rounded-2xl border border-border/40 bg-muted/15 p-2 select-none lg:col-span-8"
         >
           <svg
             viewBox={`0 0 ${FLAT_MAP_VIEW.width} ${FLAT_MAP_VIEW.height}`}
@@ -454,7 +454,7 @@ export function Globe({
           {/* 桌面端专用：鼠标悬停浮动卡片（仅在 md: 及以上精细指针设备展示，小屏移动端严格隐藏，杜绝任何视口溢出） */}
           {activeCard && (
             <div
-              className="hidden md:block absolute z-50 min-w-[200px] max-w-[290px] rounded-[2px] border border-border/80 bg-card/95 p-2.5 text-xs shadow-xl backdrop-blur-xs transition-all duration-75 select-none animate-fade-in"
+              className="hidden md:block absolute z-50 min-w-[210px] max-w-[300px] rounded-2xl border border-white/10 bg-card/90 p-3 text-xs shadow-2xl backdrop-blur-xl transition-all duration-150 select-none animate-fade-in"
               style={cardStyle}
               onClick={(e) => e.stopPropagation()}
               onMouseEnter={handleCardEnter}
@@ -466,7 +466,7 @@ export function Globe({
                   <img
                     src={FLAGS[activeCard.region.country]}
                     alt={activeCard.region.country}
-                    className="h-3 w-4 rounded-[1px] object-cover shrink-0"
+                    className="h-3 w-4 rounded-xs object-cover shrink-0"
                   />
                 )}
                 <span className="truncate">
@@ -486,7 +486,7 @@ export function Globe({
                       e.stopPropagation()
                       onOpenNode(node.id)
                     }}
-                    className="group flex items-center justify-between gap-3 rounded-[2px] px-1.5 py-1 text-xs hover:bg-muted/70 cursor-pointer transition-colors"
+                    className="group flex items-center justify-between gap-3 rounded-2xl px-1.5 py-1 text-xs hover:bg-muted/70 cursor-pointer transition-colors"
                     title="点击查看此节点监控指标"
                   >
                     <span className="truncate font-mono text-xs font-medium text-foreground group-hover:text-primary transition-colors">
@@ -516,7 +516,7 @@ export function Globe({
             <Button
               variant="ghost"
               size="sm"
-              className="h-5 rounded-[2px] px-1 text-xs text-muted-foreground hover:text-foreground"
+              className="h-5 rounded-2xl px-1 text-xs text-muted-foreground hover:text-foreground"
               onClick={() => onSelectRegion(null)}
             >
               清除筛选
@@ -539,7 +539,7 @@ export function Globe({
               <div
                 key={reg.key}
                 className={cn(
-                  "flex flex-col rounded-[2px] border transition-colors",
+                  "flex flex-col rounded-2xl border transition-colors",
                   isSelected
                     ? "border-primary/80 bg-primary/10 text-foreground ring-1 ring-primary/30"
                     : "border-border/40 bg-muted/20 text-muted-foreground hover:border-border hover:bg-muted/40 hover:text-foreground"
@@ -556,7 +556,7 @@ export function Globe({
                         <img
                           src={flagUrl}
                           alt={reg.country}
-                          className="h-3 w-4 rounded-[1px] object-cover shrink-0"
+                          className="h-3 w-4 rounded-xs object-cover shrink-0"
                         />
                       )}
                       <span className="truncate text-xs font-medium text-foreground">
@@ -576,7 +576,7 @@ export function Globe({
                   </div>
 
                   {/* 在线率微进度条 */}
-                  <div className="h-0.5 w-full rounded-[1px] bg-border/40 overflow-hidden">
+                  <div className="h-0.5 w-full rounded-full bg-border/40 overflow-hidden">
                     <div
                       className={cn(
                         "h-full transition-all duration-300",
@@ -594,7 +594,7 @@ export function Globe({
                       <div
                         key={node.id}
                         onClick={() => onOpenNode(node.id)}
-                        className="group flex items-center justify-between gap-2 rounded-[2px] px-1.5 py-1 text-xs hover:bg-muted/70 cursor-pointer transition-colors"
+                        className="group flex items-center justify-between gap-2 rounded-2xl px-1.5 py-1 text-xs hover:bg-muted/70 cursor-pointer transition-colors"
                         title="点击查看此节点监控指标"
                       >
                         <span className="truncate font-mono text-xs font-medium text-foreground group-hover:text-primary transition-colors">

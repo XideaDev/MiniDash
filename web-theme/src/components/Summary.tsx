@@ -23,7 +23,7 @@ import { cn } from "@/lib/utils"
 
 /**
  * 汇总微卡片单项容器
- * 遵循 AGENT.md 规范：采用微倒角 rounded-[2px]，微边框与 hover 平滑过渡
+ * 遵循 AGENT.md 规范：采用微倒角 rounded-2xl，微边框与 hover 平滑过渡
  */
 function Tile({
   icon: Icon,
@@ -41,13 +41,13 @@ function Tile({
   return (
     <Card
       className={cn(
-        "group flex flex-col gap-0 rounded-[2px] border border-border/80 bg-card p-3.5 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/30 hover:shadow-xs",
+        "group flex flex-col gap-0 rounded-2xl border border-border/80 bg-card/80 backdrop-blur-md p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/30 hover:shadow-md",
         className,
       )}
     >
       <div className="flex items-center justify-between text-xs text-muted-foreground">
         <div className="flex items-center gap-1.5 min-w-0">
-          <span className="flex size-5 shrink-0 items-center justify-center rounded-[1px] border border-border/40 bg-muted/40 transition-colors group-hover:border-foreground/20">
+          <span className="flex size-6 shrink-0 items-center justify-center rounded-lg border border-border/40 bg-muted/50 transition-colors group-hover:border-foreground/20">
             <Icon className="size-3 text-foreground/80" />
           </span>
           <span className="font-medium tracking-tight text-muted-foreground truncate">{label}</span>
@@ -80,13 +80,13 @@ function Flow({ down, up, className }: { down: string; up: string; className?: s
 
 /**
  * 极轻量 SVG 趋势线（无重型图表库依赖）
- * 遵循 AGENT.md 规范：保持精简轻量，采用微倒角 rounded-[1px] 容器包裹
+ * 遵循 AGENT.md 规范：保持精简轻量，采用微倒角 rounded-full 容器包裹
  */
 function Spark({ series }: { series: { values: number[]; className: string }[] }) {
   const top = Math.max(...series.flatMap((s) => s.values), 1)
   const width = Math.max(...series.map((s) => s.values.length), 2) - 1
   return (
-    <div className="overflow-hidden rounded-[1px] border border-border/30 bg-muted/20 px-1 py-0.5">
+    <div className="overflow-hidden rounded-full border border-border/30 bg-muted/20 px-1 py-0.5">
       <svg viewBox="0 0 100 24" preserveAspectRatio="none" className="h-6 w-full" aria-hidden>
         {series.map((s, i) => (
           <polyline
@@ -194,7 +194,7 @@ export function Summary({
           label="类型与架构"
           badge={
             nodes.length > 0 ? (
-              <span className="rounded-[1px] bg-muted/60 px-1.5 py-0.5 text-[11px] font-mono text-muted-foreground">
+              <span className="rounded-full bg-muted/60 px-1.5 py-0.5 text-[11px] font-mono text-muted-foreground">
                 共 {nodes.length} 台
               </span>
             ) : null
@@ -210,7 +210,7 @@ export function Summary({
                     <span
                       key={item.name}
                       title={`${item.name}: ${item.count} 台节点`}
-                      className="inline-flex items-center gap-1 rounded-[1px] border border-border/70 bg-muted/40 px-1.5 py-0.5 font-mono text-[11px] font-medium text-foreground transition-colors hover:border-foreground/30"
+                      className="inline-flex items-center gap-1 rounded-full border border-border/70 bg-muted/40 px-1.5 py-0.5 font-mono text-[11px] font-medium text-foreground transition-colors hover:border-foreground/30"
                     >
                       <span>{item.name}</span>
                       <strong className="text-primary font-semibold">{item.count}</strong>
@@ -227,7 +227,7 @@ export function Summary({
                     <span
                       key={item.name}
                       title={`${item.name}: ${item.count} 台节点`}
-                      className="inline-flex items-center gap-1 rounded-[1px] border border-border/70 bg-muted/40 px-1.5 py-0.5 font-mono text-[11px] font-medium text-foreground transition-colors hover:border-foreground/30"
+                      className="inline-flex items-center gap-1 rounded-full border border-border/70 bg-muted/40 px-1.5 py-0.5 font-mono text-[11px] font-medium text-foreground transition-colors hover:border-foreground/30"
                     >
                       <span>{item.name}</span>
                       <strong className="text-primary font-semibold">{item.count}</strong>
@@ -287,10 +287,10 @@ export function Summary({
               <span className="tnum font-mono text-[11px] font-medium">{memPct.toFixed(0)}%</span>
             </div>
             {/* 工控微倒角使用率指示条 */}
-            <div className="h-1 w-full overflow-hidden rounded-[1px] bg-muted/60">
+            <div className="h-1 w-full overflow-hidden rounded-full bg-muted/60">
               <div
                 className={cn(
-                  "h-full rounded-[1px] transition-all duration-300",
+                  "h-full rounded-full transition-all duration-300",
                   memPct >= 90 ? "bg-destructive" : memPct >= 75 ? "bg-warn" : "bg-primary",
                 )}
                 style={{ width: `${Math.min(100, Math.max(0, memPct))}%` }}
@@ -310,10 +310,10 @@ export function Summary({
               <span className="tnum font-mono text-[11px] font-medium">{diskPct.toFixed(0)}%</span>
             </div>
             {/* 工控微倒角使用率指示条 */}
-            <div className="h-1 w-full overflow-hidden rounded-[1px] bg-muted/60">
+            <div className="h-1 w-full overflow-hidden rounded-full bg-muted/60">
               <div
                 className={cn(
-                  "h-full rounded-[1px] transition-all duration-300",
+                  "h-full rounded-full transition-all duration-300",
                   diskPct >= 90 ? "bg-destructive" : diskPct >= 75 ? "bg-warn" : "bg-primary",
                 )}
                 style={{ width: `${Math.min(100, Math.max(0, diskPct))}%` }}
@@ -360,7 +360,7 @@ export function Summary({
           className="lg:col-span-2"
           badge={
             costs.billableCount > 0 ? (
-              <span className="rounded-[1px] bg-muted/60 px-1.5 py-0.5 text-[11px] font-mono text-muted-foreground">
+              <span className="rounded-full bg-muted/60 px-1.5 py-0.5 text-[11px] font-mono text-muted-foreground">
                 {costs.billableCount} 台计费
               </span>
             ) : (
@@ -387,7 +387,7 @@ export function Summary({
                   {costs.breakdown.map((item) => (
                     <span
                       key={item.currency}
-                      className="rounded-[1px] border border-border/60 bg-muted/30 px-1.5 py-0.5 font-mono text-muted-foreground"
+                      className="rounded-full border border-border/60 bg-muted/30 px-1.5 py-0.5 font-mono text-muted-foreground"
                     >
                       {item.currency}: {money(item.monthly, item.currency)}/月 ({item.count}台)
                     </span>
@@ -414,11 +414,11 @@ export function Summary({
           className="lg:col-span-2"
           badge={
             expiry.expiredCount > 0 ? (
-              <span className="rounded-[1px] bg-destructive/15 px-1.5 py-0.5 text-[11px] font-medium text-destructive">
+              <span className="rounded-full bg-destructive/15 px-1.5 py-0.5 text-[11px] font-medium text-destructive">
                 {expiry.expiredCount} 台已过期
               </span>
             ) : expiry.nearExpiryCount > 0 ? (
-              <span className="rounded-[1px] bg-warn/15 px-1.5 py-0.5 text-[11px] font-medium text-warn">
+              <span className="rounded-full bg-warn/15 px-1.5 py-0.5 text-[11px] font-medium text-warn">
                 {expiry.nearExpiryCount} 台临期预警
               </span>
             ) : expiry.list.length > 0 ? (
@@ -435,7 +435,7 @@ export function Summary({
               {expiry.list.slice(0, 4).map(({ node: n, days }, idx) => (
                 <div key={n.id} className="flex items-center justify-between gap-2 py-1 text-xs">
                   <div className="flex items-center gap-1.5 min-w-0">
-                    <span className="flex size-4 shrink-0 items-center justify-center rounded-[1px] bg-muted/70 text-[10px] font-mono font-semibold text-muted-foreground">
+                    <span className="flex size-4 shrink-0 items-center justify-center rounded-md bg-muted/70 text-[10px] font-mono font-semibold text-muted-foreground">
                       {idx + 1}
                     </span>
                     <Country node={n} />
@@ -451,7 +451,7 @@ export function Summary({
                   <div className="shrink-0">
                     <Badge
                       className={cn(
-                        "h-4.5 px-1.5 text-[11px] font-mono font-medium rounded-[1px]",
+                        "h-4.5 px-1.5 text-[11px] font-mono font-medium rounded-full",
                         days < 0
                           ? "border-destructive/40 bg-destructive/15 text-destructive font-semibold"
                           : days <= 3

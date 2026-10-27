@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minidash 新一代视觉重塑原型</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Text"', '"SF Pro Display"', 'Segoe UI', 'Roboto', 'sans-serif'],
+            mono: ['"SF Mono"', 'ui-monospace', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          },
+        }
+      }
+    }
+  </script>
+  <style>
+    /* 高级暗黑调色：摒弃刺眼纯黑(#000)与生硬纯白(#fff)，采用高级黑曜石冷灰体系 */
+    :root {
+      --bg: #f8f9fa;
+      --card-bg: #ffffff;
+      --border-color: rgba(0, 0, 0, 0.08);
+      --text-main: #111827;
+      --text-sub: #6b7280;
+    }
+    .dark {
+      --bg: #090a0c;
+      --card-bg: #121316;
+      --card-hover: #18191d;
+      --border-color: rgba(255, 255, 255, 0.07);
+      --border-hover: rgba(255, 255, 255, 0.16);
+      --text-main: #f3f4f6;
+      --text-sub: #8b909a;
+    }
+
+    body {
+      background-color: var(--bg);
+      color: var(--text-main);
+    }
+
+    /* 细腻边框与柔和微光 */
+    .premium-card {
+      background-color: var(--card-bg);
+      border: 1px solid var(--border-color);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .dark .premium-card:hover {
+      background-color: var(--card-hover);
+      border-color: var(--border-hover);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.45);
+    }
+
+    /* 微型呼吸状态灯：柔和不刺眼 */
+    .status-dot {
+      position: relative;
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-radius: 9999px;
+    }
+    .status-dot.online {
+      background-color: #10b981;
+      box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+    }
+    .status-dot.warning {
+      background-color: #f59e0b;
+      box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+    }
+  </style>
+</head>
+<body class="antialiased min-h-screen selection:bg-neutral-800 selection:text-neutral-100">
+
+  <!-- 顶部设计方案快速切换浮条 -->
+  <nav class="sticky top-0 z-50 border-b border-white/5 bg-[#090a0c]/80 backdrop-blur-xl px-4 py-3">
+    <div class="mx-auto flex max-w-6xl items-center justify-between">
+      <div class="flex items-center gap-2.5">
+        <div class="size-6 rounded-md bg-white text-black flex items-center justify-center font-bold text-xs">M</div>
+        <span class="text-sm font-semibold tracking-tight">Minidash 设计评审</span>
+        <span class="text-xs text-neutral-500 hidden sm:inline">· 3 套去模板化设计</span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <div class="flex rounded-lg border border-white/10 bg-white/5 p-1 text-xs">
+          <button onclick="switchTab('a')" id="btn-a" class="rounded-md px-3.5 py-1.5 font-medium transition-all bg-white text-black shadow-xs">
+            方案 A：Linear 画刊风 (主推)
+          </button>
+          <button onclick="switchTab('b')" id="btn-b" class="rounded-md px-3.5 py-1.5 font-medium text-neutral-400 hover:text-white transition-all">
+            方案 B：Apple 流体卡片
+          </button>
+          <button onclick="switchTab('c')" id="btn-c" class="rounded-md px-3.5 py-1.5 font-medium text-neutral-400 hover:text-white transition-all">
+            方案 C：Vercel 极简排版
+          </button>
+        </div>
+
+        <button onclick="document.documentElement.classList.toggle('dark')" class="size-8 rounded-lg border border-white/10 hover:bg-white/5 text-neutral-400 hover:text-white flex items-center justify-center text-xs ml-1" title="切换深色/浅色">
+          🌓
+        </button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- ========================================================================= -->
+  <!-- 方案 A：Linear / Raycast 极简画刊风 (最耐看、排版高级、高留白呼吸感)          -->
+  <!-- ========================================================================= -->
+  <main id="view-a" class="mx-auto max-w-6xl px-4 py-12 sm:px-6 space-y-12">
+    
+    <!-- 头部：大字阶、安静、克制 -->
+    <header class="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+      <div>
+        <p class="text-xs font-mono text-neutral-500 uppercase tracking-widest">Workspace · SG1 Region</p>
+        <h1 class="text-3xl sm:text-4xl font-semibold tracking-tight text-white mt-1.5">个人服务与主机总览</h1>
+      </div>
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-neutral-300">
+          <span class="status-dot online"></span>
+          <span class="font-mono">8 个服务在线</span>
+          <span class="text-neutral-600">|</span>
+          <span class="font-mono text-neutral-400">平均延迟 28ms</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 核心实例状态行 (精致工整，不抢服务导航风头) -->
+    <section class="rounded-2xl premium-card p-5">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <!-- 机器基本信息 -->
+        <div class="flex items-center gap-3.5">
+          <div class="size-10 rounded-xl bg-white/5 border border-white/10 flex items-center justify-center text-sm font-mono text-white">
+            SG
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="font-semibold text-sm text-white">OCR-AMD2-SG</span>
+              <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/10 text-emerald-400 font-mono text-[11px]">正常运行</span>
+            </div>
+            <p class="text-xs text-neutral-400 mt-0.5 font-mono">168.107.81.167 · AMD EPYC 2-Core · Ubuntu 24.04</p>
+          </div>
+        </div>
+
+        <!-- 3项核心指标：采用大字体紧凑展示，摒弃傻大进度条 -->
+        <div class="flex items-center gap-6 sm:gap-10 border-t md:border-t-0 border-white/5 pt-3 md:pt-0">
+          <div>
+            <p class="text-[11px] font-mono text-neutral-500">CPU 负载</p>
+            <p class="text-base font-semibold font-mono text-white mt-0.5">14.2<span class="text-xs font-normal text-neutral-400">%</span></p>
+          </div>
+          <div>
+            <p class="text-[11px] font-mono text-neutral-500">内存占用</p>
+            <p class="text-base font-semibold font-mono text-white mt-0.5">352<span class="text-xs font-normal text-neutral-400"> / 1000 MB</span></p>
+          </div>
+          <div>
+            <p class="text-[11px] font-mono text-neutral-500">系统存储</p>
+            <p class="text-base font-semibold font-mono text-white mt-0.5">14<span class="text-xs font-normal text-neutral-400">% (6.9G)</span></p>
+          </div>
+          <div class="hidden sm:block">
+            <p class="text-[11px] font-mono text-neutral-500">实时带宽</p>
+            <p class="text-base font-semibold font-mono text-emerald-400 mt-0.5">↓ 1.4 <span class="text-xs font-normal text-neutral-400">MB/s</span></p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 服务导航区域：Linear 极简卡片网格 -->
+    <section class="space-y-4">
+      <div class="flex items-center justify-between text-xs text-neutral-500 font-mono uppercase tracking-wider">
+        <span>自建云端服务 (Services)</span>
+        <span class="text-[11px] text-neutral-500">点击卡片直达外部服务</span>
+      </div>
+
+      <div class="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
+        
+        <!-- 卡片 1 -->
+        <a href="#" class="premium-card group rounded-2xl p-4.5 flex flex-col justify-between h-36">
+          <div class="flex items-start justify-between">
+            <div class="size-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-xs font-mono text-white group-hover:border-white/30 transition-colors">
+              GT
+            </div>
+            <span class="status-dot online"></span>
+          </div>
+          <div>
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-white tracking-tight">Gitea</h3>
+              <span class="text-neutral-500 opacity-0 group-hover:opacity-100 transition-opacity text-xs font-mono">24ms ↗</span>
+            </div>
+            <p class="text-xs text-neutral-400 mt-1 line-clamp-1">私有代码仓库与自建 CI/CD</p>
+          </div>
+        </a>
+
+        <!-- 卡片 2 -->
+        <a href="#" class="premium-card group rounded-2xl p-4.5 flex flex-col justify-between h-36">
+          <div class="flex items-start justify-between">
+            <div class="size-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-xs font-mono text-white group-hover:border-white/30 transition-colors">
+              NC
+            </div>
+            <span class="status-dot online"></span>
+          </div>
+          <div>
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-white tracking-tight">Nextcloud</h3>
+              <span class="text-neutral-500 opacity-0 group-hover:opacity-100 transition-opacity text-xs font-mono">42ms ↗</span>
+            </div>
+            <p class="text-xs text-neutral-400 mt-1 line-clamp-1">多端私有网盘与办公套件</p>
+          </div>
+        </a>
+
+        <!-- 卡片 3 -->
+        <a href="#" class="premium-card group rounded-2xl p-4.5 flex flex-col justify-between h-36">
+          <div class="flex items-start justify-between">
+            <div class="size-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-xs font-mono text-white group-hover:border-white/30 transition-colors">
+              JF
+            </div>
+            <span class="status-dot online"></span>
+          </div>
+          <div>
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-white tracking-tight">Jellyfin</h3>
+              <span class="text-neutral-500 opacity-0 group-hover:opacity-100 transition-opacity text-xs font-mono">35ms ↗</span>
+            </div>
+            <p class="text-xs text-neutral-400 mt-1 line-clamp-1">流媒体中心与高保真影音</p>
+          </div>
+        </a>
+
+        <!-- 卡片 4 -->
+        <a href="#" class="premium-card group rounded-2xl p-4.5 flex flex-col justify-between h-36">
+          <div class="flex items-start justify-between">
+            <div class="size-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-xs font-mono text-white group-hover:border-white/30 transition-colors">
+              VW
+            </div>
+            <span class="status-dot online"></span>
+          </div>
+          <div>
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-white tracking-tight">Vaultwarden</h3>
+              <span class="text-neutral-500 opacity-0 group-hover:opacity-100 transition-opacity text-xs font-mono">18ms ↗</span>
+            </div>
+            <p class="text-xs text-neutral-400 mt-1 line-clamp-1">端到端加密密码管理服务</p>
+          </div>
+        </a>
+
+        <!-- 卡片 5 -->
+        <a href="#" class="premium-card group rounded-2xl p-4.5 flex flex-col justify-between h-36">
+          <div class="flex items-start justify-between">
+            <div class="size-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-xs font-mono text-white group-hover:border-white/30 transition-colors">
+              DC
+            </div>
+            <span class="status-dot online"></span>
+          </div>
+          <div>
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-white tracking-tight">Portainer</h3>
+              <span class="text-neutral-500 opacity-0 group-hover:opacity-100 transition-opacity text-xs font-mono">14 Cont ↗</span>
+            </div>
+            <p class="text-xs text-neutral-400 mt-1 line-clamp-1">Docker 容器运行控制面板</p>
+          </div>
+        </a>
+
+        <!-- 卡片 6 -->
+        <a href="#" class="premium-card group rounded-2xl p-4.5 flex flex-col justify-between h-36">
+          <div class="flex items-start justify-between">
+            <div class="size-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-xs font-mono text-white group-hover:border-white/30 transition-colors">
+              QB
+            </div>
+            <span class="status-dot warning"></span>
+          </div>
+          <div>
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-white tracking-tight">qBittorrent</h3>
+              <span class="text-amber-400 opacity-0 group-hover:opacity-100 transition-opacity text-xs font-mono">92% 满 ↗</span>
+            </div>
+            <p class="text-xs text-neutral-400 mt-1 line-clamp-1">PT 离线下载与文件分发</p>
+          </div>
+        </a>
+
+        <!-- 卡片 7 -->
+        <a href="#" class="premium-card group rounded-2xl p-4.5 flex flex-col justify-between h-36">
+          <div class="flex items-start justify-between">
+            <div class="size-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-xs font-mono text-white group-hover:border-white/30 transition-colors">
+              AL
+            </div>
+            <span class="status-dot online"></span>
+          </div>
+          <div>
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-white tracking-tight">Alist 网盘</h3>
+              <span class="text-neutral-500 opacity-0 group-hover:opacity-100 transition-opacity text-xs font-mono">52ms ↗</span>
+            </div>
+            <p class="text-xs text-neutral-400 mt-1 line-clamp-1">多存储聚合与文件挂载</p>
+          </div>
+        </a>
+
+        <!-- 卡片 8 -->
+        <a href="#" class="premium-card group rounded-2xl p-4.5 flex flex-col justify-between h-36">
+          <div class="flex items-start justify-between">
+            <div class="size-8 rounded-lg bg-white/5 border border-white/10 flex items-center justify-center text-xs font-mono text-white group-hover:border-white/30 transition-colors">
+              QL
+            </div>
+            <span class="status-dot online"></span>
+          </div>
+          <div>
+            <div class="flex items-center justify-between">
+              <h3 class="text-sm font-semibold text-white tracking-tight">青龙定时面板</h3>
+              <span class="text-neutral-500 opacity-0 group-hover:opacity-100 transition-opacity text-xs font-mono">22ms ↗</span>
+            </div>
+            <p class="text-xs text-neutral-400 mt-1 line-clamp-1">日常自动化脚本与任务计划</p>
+          </div>
+        </a>
+
+      </div>
+    </section>
+  </main>
+
+
+  <!-- ========================================================================= -->
+  <!-- 方案 B：Apple 现代流体卡片风 (温润大圆角、分区分明、极其主流大众)            -->
+  <!-- ========================================================================= -->
+  <main id="view-b" class="mx-auto max-w-5xl px-4 py-12 sm:px-6 space-y-10 hidden">
+    <!-- 顶部极简灵动健康状态胶囊 -->
+    <div class="flex justify-center">
+      <div class="inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 px-4 py-2 shadow-inner">
+        <span class="status-dot online"></span>
+        <span class="text-xs font-medium text-white tracking-wide">所有系统与 8 个自建服务正常运行中</span>
+        <span class="text-neutral-600">·</span>
+        <span class="text-xs font-mono text-neutral-400">99.98% SLA</span>
+      </div>
+    </div>
+
+    <!-- 服务器矩阵横向卡片 -->
+    <section class="space-y-3">
+      <h2 class="text-xs font-semibold text-neutral-400 uppercase tracking-wider px-1">基础设施节点</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="premium-card rounded-2xl p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="size-9 rounded-xl bg-neutral-800 flex items-center justify-center text-xs font-bold text-white">🇸🇬</div>
+              <div>
+                <h3 class="font-semibold text-sm text-white">OCR-AMD2-SG</h3>
+                <p class="text-[11px] text-neutral-400 font-mono">Oracle Cloud 新加坡节点</p>
+              </div>
+            </div>
+            <span class="text-xs font-mono text-emerald-400">在线 9 天</span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 rounded-xl bg-white/5 p-3 text-center">
+            <div>
+              <p class="text-[10px] text-neutral-500 font-mono">CPU</p>
+              <p class="text-sm font-semibold font-mono text-white mt-0.5">14.2%</p>
+            </div>
+            <div>
+              <p class="text-[10px] text-neutral-500 font-mono">RAM</p>
+              <p class="text-sm font-semibold font-mono text-white mt-0.5">35%</p>
+            </div>
+            <div>
+              <p class="text-[10px] text-neutral-500 font-mono">PING</p>
+              <p class="text-sm font-semibold font-mono text-emerald-400 mt-0.5">28ms</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="premium-card rounded-2xl p-5 space-y-4">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="size-9 rounded-xl bg-neutral-800 flex items-center justify-center text-xs font-bold text-white">🏠</div>
+              <div>
+                <h3 class="font-semibold text-sm text-white">HOME-NAS-01</h3>
+                <p class="text-[11px] text-neutral-400 font-mono">家庭局域网存储中心</p>
+              </div>
+            </div>
+            <span class="text-xs font-mono text-emerald-400">在线 42 天</span>
+          </div>
+
+          <div class="grid grid-cols-3 gap-2 rounded-xl bg-white/5 p-3 text-center">
+            <div>
+              <p class="text-[10px] text-neutral-500 font-mono">CPU</p>
+              <p class="text-sm font-semibold font-mono text-white mt-0.5">28.0%</p>
+            </div>
+            <div>
+              <p class="text-[10px] text-neutral-500 font-mono">RAM</p>
+              <p class="text-sm font-semibold font-mono text-white mt-0.5">26%</p>
+            </div>
+            <div>
+              <p class="text-[10px] text-neutral-500 font-mono">STORAGE</p>
+              <p class="text-sm font-semibold font-mono text-white mt-0.5">4.8T</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 服务导航：分类成组展示 -->
+    <section class="space-y-6">
+      <div class="space-y-3">
+        <h2 class="text-xs font-semibold text-neutral-400 uppercase tracking-wider px-1">常用服务与应用</h2>
+        
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <a href="#" class="premium-card rounded-2xl p-4 flex items-center gap-3.5 group">
+            <div class="size-11 rounded-xl bg-neutral-800 border border-white/5 flex items-center justify-center text-lg font-bold">☁️</div>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-semibold text-white group-hover:text-neutral-200 truncate">Nextcloud</h4>
+                <span class="status-dot online"></span>
+              </div>
+              <p class="text-xs text-neutral-400 font-mono mt-0.5 truncate">cloud.5956.net</p>
+            </div>
+          </a>
+
+          <a href="#" class="premium-card rounded-2xl p-4 flex items-center gap-3.5 group">
+            <div class="size-11 rounded-xl bg-neutral-800 border border-white/5 flex items-center justify-center text-lg font-bold">🍿</div>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-semibold text-white group-hover:text-neutral-200 truncate">Jellyfin</h4>
+                <span class="status-dot online"></span>
+              </div>
+              <p class="text-xs text-neutral-400 font-mono mt-0.5 truncate">media.5956.net</p>
+            </div>
+          </a>
+
+          <a href="#" class="premium-card rounded-2xl p-4 flex items-center gap-3.5 group">
+            <div class="size-11 rounded-xl bg-neutral-800 border border-white/5 flex items-center justify-center text-lg font-bold">🔑</div>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-semibold text-white group-hover:text-neutral-200 truncate">Vaultwarden</h4>
+                <span class="status-dot online"></span>
+              </div>
+              <p class="text-xs text-neutral-400 font-mono mt-0.5 truncate">pass.5956.net</p>
+            </div>
+          </a>
+
+          <a href="#" class="premium-card rounded-2xl p-4 flex items-center gap-3.5 group">
+            <div class="size-11 rounded-xl bg-neutral-800 border border-white/5 flex items-center justify-center text-lg font-bold">🐙</div>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-semibold text-white group-hover:text-neutral-200 truncate">Gitea</h4>
+                <span class="status-dot online"></span>
+              </div>
+              <p class="text-xs text-neutral-400 font-mono mt-0.5 truncate">git.5956.net</p>
+            </div>
+          </a>
+
+          <a href="#" class="premium-card rounded-2xl p-4 flex items-center gap-3.5 group">
+            <div class="size-11 rounded-xl bg-neutral-800 border border-white/5 flex items-center justify-center text-lg font-bold">🐳</div>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-semibold text-white group-hover:text-neutral-200 truncate">Portainer</h4>
+                <span class="status-dot online"></span>
+              </div>
+              <p class="text-xs text-neutral-400 font-mono mt-0.5 truncate">docker.5956.net</p>
+            </div>
+          </a>
+
+          <a href="#" class="premium-card rounded-2xl p-4 flex items-center gap-3.5 group">
+            <div class="size-11 rounded-xl bg-neutral-800 border border-white/5 flex items-center justify-center text-lg font-bold">⚡</div>
+            <div class="min-w-0 flex-1">
+              <div class="flex items-center justify-between">
+                <h4 class="text-sm font-semibold text-white group-hover:text-neutral-200 truncate">qBittorrent</h4>
+                <span class="status-dot warning"></span>
+              </div>
+              <p class="text-xs text-neutral-400 font-mono mt-0.5 truncate">qb.5956.net</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- ========================================================================= -->
+  <!-- 方案 C：Vercel / Geist 瑞士极简排版风 (极简线条、极速高信息比)               -->
+  <!-- ========================================================================= -->
+  <main id="view-c" class="mx-auto max-w-5xl px-4 py-12 sm:px-6 space-y-8 hidden">
+    <!-- 极简纯单色顶部 -->
+    <div class="border-b border-white/10 pb-4 flex items-center justify-between">
+      <div>
+        <h2 class="text-lg font-mono font-bold tracking-tight text-white uppercase">MINIDASH // STATUS</h2>
+        <p class="text-xs text-neutral-500 font-mono mt-1">HOST: minidash.5956.net | REGION: SG-01</p>
+      </div>
+      <div class="text-right font-mono text-xs">
+        <span class="text-emerald-400">● OPERATIONAL</span>
+      </div>
+    </div>
+
+    <!-- 瑞士排版式服务条目 (无卡片框，纯线条与间距美感) -->
+    <section class="space-y-1">
+      <div class="divide-y divide-white/5 border-y border-white/10 font-mono text-xs">
+        
+        <div class="py-3 px-2 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+          <div class="flex items-center gap-4">
+            <span class="text-neutral-600">01</span>
+            <span class="text-sm font-sans font-medium text-white">Gitea Repository</span>
+            <span class="text-neutral-500 text-[11px] hidden sm:inline">git.5956.net</span>
+          </div>
+          <div class="flex items-center gap-6">
+            <span class="text-neutral-400 text-[11px]">SG-NODE-01</span>
+            <span class="text-emerald-400">200 OK · 24ms</span>
+            <a href="#" class="text-neutral-500 hover:text-white">OPEN ↗</a>
+          </div>
+        </div>
+
+        <div class="py-3 px-2 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+          <div class="flex items-center gap-4">
+            <span class="text-neutral-600">02</span>
+            <span class="text-sm font-sans font-medium text-white">Nextcloud Storage</span>
+            <span class="text-neutral-500 text-[11px] hidden sm:inline">cloud.5956.net</span>
+          </div>
+          <div class="flex items-center gap-6">
+            <span class="text-neutral-400 text-[11px]">SG-NODE-01</span>
+            <span class="text-emerald-400">200 OK · 48ms</span>
+            <a href="#" class="text-neutral-500 hover:text-white">OPEN ↗</a>
+          </div>
+        </div>
+
+        <div class="py-3 px-2 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+          <div class="flex items-center gap-4">
+            <span class="text-neutral-600">03</span>
+            <span class="text-sm font-sans font-medium text-white">Vaultwarden Vault</span>
+            <span class="text-neutral-500 text-[11px] hidden sm:inline">pass.5956.net</span>
+          </div>
+          <div class="flex items-center gap-6">
+            <span class="text-neutral-400 text-[11px]">SG-NODE-01</span>
+            <span class="text-emerald-400">200 OK · 18ms</span>
+            <a href="#" class="text-neutral-500 hover:text-white">OPEN ↗</a>
+          </div>
+        </div>
+
+        <div class="py-3 px-2 flex items-center justify-between hover:bg-white/[0.02] transition-colors">
+          <div class="flex items-center gap-4">
+            <span class="text-neutral-600">04</span>
+            <span class="text-sm font-sans font-medium text-white">Jellyfin Media Server</span>
+            <span class="text-neutral-500 text-[11px] hidden sm:inline">media.5956.net</span>
+          </div>
+          <div class="flex items-center gap-6">
+            <span class="text-neutral-400 text-[11px]">HOME-NAS-01</span>
+            <span class="text-emerald-400">200 OK · 38ms</span>
+            <a href="#" class="text-neutral-500 hover:text-white">OPEN ↗</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 底层硬件遥测简表 -->
+    <section class="border border-white/10 rounded-xl p-4 font-mono text-xs">
+      <div class="flex items-center justify-between text-neutral-500 mb-3 border-b border-white/5 pb-2">
+        <span>CLUSTER HARDWARE METRICS</span>
+        <span>1 SEC REFRESH</span>
+      </div>
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <div>
+          <span class="text-neutral-500 block text-[10px]">SG-NODE LOAD</span>
+          <span class="text-sm font-semibold text-white mt-1 block">14.2%</span>
+        </div>
+        <div>
+          <span class="text-neutral-500 block text-[10px]">SG-NODE RAM</span>
+          <span class="text-sm font-semibold text-white mt-1 block">352M / 1G</span>
+        </div>
+        <div>
+          <span class="text-neutral-500 block text-[10px]">TRAFFIC IN</span>
+          <span class="text-sm font-semibold text-emerald-400 mt-1 block">1.4 MB/s</span>
+        </div>
+        <div>
+          <span class="text-neutral-500 block text-[10px]">UPTIME</span>
+          <span class="text-sm font-semibold text-white mt-1 block">9 DAYS</span>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <script>
+    function switchTab(scheme) {
+      ['a', 'b', 'c'].forEach(key => {
+        const view = document.getElementById(`view-${key}`);
+        const btn = document.getElementById(`btn-${key}`);
+        if (key === scheme) {
+          view.classList.remove('hidden');
+          btn.classList.add('bg-white', 'text-black', 'shadow-xs');
+          btn.classList.remove('text-neutral-400');
+        } else {
+          view.classList.add('hidden');
+          btn.classList.remove('bg-white', 'text-black', 'shadow-xs');
+          btn.classList.add('text-neutral-400');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

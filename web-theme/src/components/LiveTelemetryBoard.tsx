@@ -7,7 +7,7 @@
  *    - 实时物理内存占用与 Swap 交换空间使用状态
  *    - 实时网络瞬时吞吐 (↓ 下行 / ↑ 上行) 与实时 TCP/UDP 连接数
  *    - 实时磁盘占用容量、系统进程总数与今日累计流量
- * 遵循 AGENT.md 规范：微倒角 (rounded-[2px])、工控精密仪器质感、全中文注释。
+ * 遵循 AGENT.md 规范：微倒角 (rounded-2xl)、工控精密仪器质感、全中文注释。
  */
 
 import { Activity, ArrowDown, ArrowUp, Clock, Cpu, HardDrive, Layers, Radio } from "lucide-react"
@@ -40,7 +40,7 @@ export function LiveTelemetryBoard({ node }: LiveTelemetryBoardProps) {
         : "离线"
 
   return (
-    <div className="space-y-2.5 rounded-[2px] border border-border/80 bg-card/70 p-3 shadow-2xs backdrop-blur-xs transition-colors sm:p-3.5">
+    <div className="space-y-2.5 rounded-2xl border border-border/80 bg-card/70 p-3 shadow-2xs backdrop-blur-xs transition-colors sm:p-3.5">
       {/* 顶部标题栏：显性 LIVE 标识、长连接刷新提示与心跳状态 */}
       <div className="flex flex-col gap-2 border-b border-border/50 pb-2.5 sm:flex-row sm:items-center sm:justify-between">
         {/* 左侧：实时状态主标识 */}
@@ -53,7 +53,7 @@ export function LiveTelemetryBoard({ node }: LiveTelemetryBoardProps) {
             </span>
           </div>
 
-          <div className="flex items-center gap-1.5 rounded-[2px] border border-border/60 bg-muted/30 px-2 py-0.5 text-[11px] font-mono font-medium text-muted-foreground shadow-2xs">
+          <div className="flex items-center gap-1.5 rounded-2xl border border-border/60 bg-muted/30 px-2 py-0.5 text-[11px] font-mono font-medium text-muted-foreground shadow-2xs">
             <span
               className={cn(
                 "size-1.5 rounded-[0.5px]",
@@ -66,7 +66,7 @@ export function LiveTelemetryBoard({ node }: LiveTelemetryBoardProps) {
 
         {/* 右侧：心跳上报频率与系统连续运行时长 */}
         <div className="flex flex-wrap items-center gap-2 text-xs font-mono text-muted-foreground sm:justify-end">
-          <div className="flex items-center gap-1 rounded-[1px] border border-border/60 bg-muted/40 px-2 py-0.5">
+          <div className="flex items-center gap-1 rounded-full border border-border/60 bg-muted/40 px-2 py-0.5">
             <Clock className="size-3 text-muted-foreground/70 shrink-0" />
             <span>运行:</span>
             <span className="tnum font-medium text-foreground">
@@ -74,7 +74,7 @@ export function LiveTelemetryBoard({ node }: LiveTelemetryBoardProps) {
             </span>
           </div>
 
-          <div className="flex items-center gap-1 rounded-[1px] border border-border/60 bg-muted/40 px-2 py-0.5">
+          <div className="flex items-center gap-1 rounded-full border border-border/60 bg-muted/40 px-2 py-0.5">
             <span>心跳:</span>
             <span className={cn("font-medium", node.online ? "text-online" : "text-destructive")}>
               {lastSeenText}
@@ -86,7 +86,7 @@ export function LiveTelemetryBoard({ node }: LiveTelemetryBoardProps) {
       {/* 4 格工控实时动态仪表矩阵 */}
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {/* 卡片 1：实时 CPU 负荷与系统负载 */}
-        <div className="flex flex-col justify-between rounded-[2px] border border-border/70 bg-card/60 p-3 shadow-2xs transition-colors hover:border-border">
+        <div className="flex flex-col justify-between rounded-2xl border border-border/70 bg-card/60 p-3 shadow-2xs transition-colors hover:border-border">
           <div>
             <div className="flex items-center justify-between text-xs">
               <span className="flex items-center gap-1.5 font-medium text-foreground">
@@ -110,7 +110,7 @@ export function LiveTelemetryBoard({ node }: LiveTelemetryBoardProps) {
             </div>
 
             {/* 动态微进度条 */}
-            <div className="mt-2 h-1.5 w-full overflow-hidden rounded-[1px] bg-muted/80">
+            <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-muted/80">
               <div
                 className={cn(
                   "h-full transition-all duration-300",
@@ -134,7 +134,7 @@ export function LiveTelemetryBoard({ node }: LiveTelemetryBoardProps) {
         </div>
 
         {/* 卡片 2：实时物理内存与 Swap */}
-        <div className="flex flex-col justify-between rounded-[2px] border border-border/70 bg-card/60 p-3 shadow-2xs transition-colors hover:border-border">
+        <div className="flex flex-col justify-between rounded-2xl border border-border/70 bg-card/60 p-3 shadow-2xs transition-colors hover:border-border">
           <div>
             <div className="flex items-center justify-between text-xs">
               <span className="flex items-center gap-1.5 font-medium text-foreground">
@@ -152,7 +152,7 @@ export function LiveTelemetryBoard({ node }: LiveTelemetryBoardProps) {
             </div>
 
             {/* 动态微进度条 */}
-            <div className="mt-2 h-1.5 w-full overflow-hidden rounded-[1px] bg-muted/80">
+            <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-muted/80">
               <div
                 className="h-full bg-primary transition-all duration-300"
                 style={{ width: `${Math.min(100, Math.max(0, memPct ?? 0))}%` }}
@@ -171,7 +171,7 @@ export function LiveTelemetryBoard({ node }: LiveTelemetryBoardProps) {
         </div>
 
         {/* 卡片 3：实时瞬时带宽与在线连接 */}
-        <div className="flex flex-col justify-between rounded-[2px] border border-border/70 bg-card/60 p-3 shadow-2xs transition-colors hover:border-border">
+        <div className="flex flex-col justify-between rounded-2xl border border-border/70 bg-card/60 p-3 shadow-2xs transition-colors hover:border-border">
           <div>
             <div className="flex items-center justify-between text-xs">
               <span className="flex items-center gap-1.5 font-medium text-foreground">
@@ -192,7 +192,7 @@ export function LiveTelemetryBoard({ node }: LiveTelemetryBoardProps) {
             </div>
 
             {/* 上下行速率相对占比；无采样或总速率为零时不填充 */}
-            <div className="mt-2 h-1.5 w-full overflow-hidden rounded-[1px] bg-muted/80 flex gap-0.5">
+            <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-muted/80 flex gap-0.5">
               <div
                 className="h-full bg-primary transition-all duration-300"
                 style={{
@@ -217,7 +217,7 @@ export function LiveTelemetryBoard({ node }: LiveTelemetryBoardProps) {
         </div>
 
         {/* 卡片 4：实时磁盘存储与运行进程 */}
-        <div className="flex flex-col justify-between rounded-[2px] border border-border/70 bg-card/60 p-3 shadow-2xs transition-colors hover:border-border">
+        <div className="flex flex-col justify-between rounded-2xl border border-border/70 bg-card/60 p-3 shadow-2xs transition-colors hover:border-border">
           <div>
             <div className="flex items-center justify-between text-xs">
               <span className="flex items-center gap-1.5 font-medium text-foreground">
@@ -235,7 +235,7 @@ export function LiveTelemetryBoard({ node }: LiveTelemetryBoardProps) {
             </div>
 
             {/* 动态微进度条 */}
-            <div className="mt-2 h-1.5 w-full overflow-hidden rounded-[1px] bg-muted/80">
+            <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-muted/80">
               <div
                 className={cn(
                   "h-full transition-all duration-300",

@@ -89,7 +89,7 @@ const moment = (value: number) =>
 /** 共用卡片边框和标题，长标题在窄屏自然换行。 */
 function Panel({ title, note, children }: { title: string; note?: string; children: ReactNode }) {
   return (
-    <section className="min-w-0 rounded-[2px] border border-border/70 bg-card/60 p-3">
+    <section className="min-w-0 rounded-2xl border border-border/70 bg-card/60 p-3">
       <div className="mb-3 flex flex-wrap items-baseline justify-between gap-x-3 gap-y-1 border-b border-border/40 pb-2">
         <h3 className="text-xs font-semibold">{title}</h3>
         {note && <span className="text-[11px] text-muted-foreground">{note}</span>}
@@ -539,7 +539,7 @@ export function ResourceCharts({ node, metrics, hours, step = 60, nowTs }: Resou
             {step < 3600 ? `${step / 60} 分钟` : `${step / 3600} 小时`}
           </p>
         </div>
-        <div className="flex max-w-full gap-1 overflow-x-auto rounded-[2px] border border-border/60 bg-muted/30 p-0.5">
+        <div className="flex max-w-full gap-1 overflow-x-auto rounded-2xl border border-border/60 bg-muted/30 p-0.5">
           {CATEGORIES.map((item) => (
             <button
               key={item.key}
@@ -547,7 +547,7 @@ export function ResourceCharts({ node, metrics, hours, step = 60, nowTs }: Resou
               aria-pressed={category === item.key}
               onClick={() => setCategory(item.key)}
               className={cn(
-                "shrink-0 rounded-[1px] px-2.5 py-1 text-xs transition-colors",
+                "shrink-0 rounded-full px-2.5 py-1 text-xs transition-colors",
                 category === item.key
                   ? "bg-primary text-primary-foreground"
                   : "text-muted-foreground hover:text-foreground",
@@ -722,7 +722,7 @@ export function ResourceCharts({ node, metrics, hours, step = 60, nowTs }: Resou
               {buckets.map((bucket) => (
                 <div
                   key={bucket.start}
-                  className="group rounded-[1px] border border-border/60 p-1.5 text-center transition-colors hover:border-primary focus-visible:outline focus-visible:outline-primary"
+                  className="group rounded-full border border-border/60 p-1.5 text-center transition-colors hover:border-primary focus-visible:outline focus-visible:outline-primary"
                   tabIndex={0}
                   role="img"
                   aria-label={`${moment(bucket.start)} 至 ${moment(bucket.end)}，${heatItem.name} ${display(heatValue(bucket), heatFormat)}，覆盖 ${bucket.coverage.toFixed(1)}%`}
@@ -1085,7 +1085,7 @@ export function ResourceCharts({ node, metrics, hours, step = 60, nowTs }: Resou
         )}
       </div>
       {/* 明细表按领域筛选，仅显示能从历史实际计算的指标。 */}
-      <section className="overflow-hidden rounded-[2px] border border-border/70">
+      <section className="overflow-hidden rounded-2xl border border-border/70">
         <button
           type="button"
           aria-expanded={showTable}

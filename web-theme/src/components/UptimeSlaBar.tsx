@@ -49,7 +49,7 @@ export function UptimeSlaBar({ metrics, step = 60, hours, nowTs }: UptimeSlaBarP
           : "text-destructive"
 
   return (
-    <div className="relative rounded-[2px] border border-border/70 bg-card/70 p-3 text-xs shadow-2xs backdrop-blur-xs transition-colors hover:border-border">
+    <div className="relative rounded-2xl border border-border/70 bg-card/70 p-3 text-xs shadow-2xs backdrop-blur-xs transition-colors hover:border-border">
       {/* 顶部标题与遥测覆盖率 */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/40 pb-2">
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -96,7 +96,7 @@ export function UptimeSlaBar({ metrics, step = 60, hours, nowTs }: UptimeSlaBarP
 
         {/* 悬浮原位 Tooltip */}
         {hovered && (
-          <div className="pointer-events-none absolute left-1/2 top-7 -translate-x-1/2 z-20 flex items-center gap-2 rounded-[2px] border border-border/80 bg-card px-2.5 py-1 text-[11px] text-card-foreground shadow-md backdrop-blur-xs animate-fade-in max-w-[calc(100vw-3rem)] flex-wrap w-max">
+          <div className="pointer-events-none absolute left-1/2 top-7 -translate-x-1/2 z-20 flex items-center gap-2 rounded-2xl border border-border/80 bg-card px-2.5 py-1 text-[11px] text-card-foreground shadow-md backdrop-blur-xs animate-fade-in max-w-[calc(100vw-3rem)] flex-wrap w-max">
             <span className="font-mono text-muted-foreground">
               {formatTimeRange(hovered.startTs, hovered.endTs, hours)}
             </span>
@@ -142,7 +142,7 @@ export function UptimeSlaBar({ metrics, step = 60, hours, nowTs }: UptimeSlaBarP
  */
 export function UptimeSlaBarSkeleton({ hours = 24 }: { hours?: number }) {
   return (
-    <div className="relative rounded-[2px] border border-border/70 bg-card/70 p-3 text-xs shadow-2xs backdrop-blur-xs select-none">
+    <div className="relative rounded-2xl border border-border/70 bg-card/70 p-3 text-xs shadow-2xs backdrop-blur-xs select-none">
       {/* 顶部标题与遥测覆盖率 */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/40 pb-2">
         <div className="flex items-center gap-1.5 text-xs text-muted-foreground">
@@ -156,7 +156,7 @@ export function UptimeSlaBarSkeleton({ hours = 24 }: { hours?: number }) {
         {/* 已观测时长占窗口比例占位 */}
         <div className="flex items-center gap-1.5">
           <span className="text-[11px] text-muted-foreground">观测覆盖率</span>
-          <Skeleton className="h-5 w-14 rounded-[1px]" />
+          <Skeleton className="h-5 w-14 rounded-full" />
         </div>
       </div>
 

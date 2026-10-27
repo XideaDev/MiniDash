@@ -40,7 +40,7 @@ function deployed(node: Node) {
  */
 /**
  * 节点在线状态徽标
- * 遵循 AGENT.md 规范：指示灯采用微倒角 rounded-[1px]，在线时呈现呼吸辉光，离线时呈现沉稳微暗色
+ * 遵循 AGENT.md 规范：指示灯采用微倒角 rounded-full，在线时呈现呼吸辉光，离线时呈现沉稳微暗色
  */
 export function Status({ node }: { node: Node }) {
   const down = sinceSeen(node)
@@ -58,7 +58,7 @@ export function Status({ node }: { node: Node }) {
     >
       <span
         className={cn(
-          "size-1.5 rounded-[1px] transition-all",
+          "size-1.5 rounded-full transition-all",
           node.online
             ? "bg-online pulse-online"
             : deployed(node)
@@ -71,7 +71,7 @@ export function Status({ node }: { node: Node }) {
   )
 }
 
-/** 节点所在地国家/地区旗帜（微倒角 rounded-[2px]） */
+/** 节点所在地国家/地区旗帜（微倒角 rounded-2xl） */
 export function Country({ node }: { node: Node }) {
   if (!node.country) return null
   const src = FLAGS[node.country]
@@ -87,7 +87,7 @@ export function Country({ node }: { node: Node }) {
       src={src}
       alt={node.country}
       title={node.country}
-      className="h-3 w-4.5 shrink-0 rounded-[2px] shadow-2xs ring-1 ring-foreground/10"
+      className="h-3 w-4.5 shrink-0 rounded-xs shadow-2xs ring-1 ring-foreground/10"
     />
   )
 }
@@ -130,7 +130,7 @@ function Expiry({ node }: { node: Node }) {
 
 /**
  * 节点卡片组件
- * 遵循 AGENT.md 规范：采用微倒角 rounded-[2px]，具备微提升发光 Hover 动效与平滑过渡
+ * 遵循 AGENT.md 规范：采用微倒角 rounded-2xl，具备微提升发光 Hover 动效与平滑过渡
  */
 export function NodeCard({
   node,
@@ -148,7 +148,7 @@ export function NodeCard({
   return (
     <Card
       onClick={onOpen}
-      className="group flex h-full flex-col justify-between min-w-0 cursor-pointer gap-0 rounded-[2px] border border-border/80 bg-card p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/40 hover:shadow-md active:translate-y-0"
+      className="group flex h-full flex-col justify-between min-w-0 cursor-pointer gap-0 rounded-3xl border border-border/80 bg-card/80 p-5 shadow-xs backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:border-foreground/30 hover:shadow-lg active:translate-y-0"
       role="button"
       tabIndex={0}
       onKeyDown={(e) => (e.key === "Enter" || e.key === " ") && (e.preventDefault(), onOpen())}
@@ -243,7 +243,7 @@ export function NodeCard({
             <span>接入状态</span>
             <span>配置指引</span>
           </div>
-          <div className="flex h-[76px] items-center justify-center rounded-[2px] border border-dashed border-border/60 bg-muted/15 px-3 text-center text-xs leading-relaxed text-muted-foreground">
+          <div className="flex h-[76px] items-center justify-center rounded-2xl border border-dashed border-border/60 bg-muted/15 px-3 text-center text-xs leading-relaxed text-muted-foreground">
             <span>主机尚未接入 · 请在后台获取命令并在主机执行</span>
           </div>
         </div>

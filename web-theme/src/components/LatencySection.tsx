@@ -1,7 +1,7 @@
 /**
  * 首页监控卡片网络延迟测试展示组件 (Node Card Latency Panel)
  * 包含：各线路实时延迟数值、一小时波动趋势火花线 (Sparkline)、丢包率指示、工控微倒角质感。
- * 遵循 AGENT.md 规范：采用中文注释、微倒角 rounded-[2px]、全等宽工控排版、零冗余外部依赖。
+ * 遵循 AGENT.md 规范：采用中文注释、微倒角 rounded-2xl、全等宽工控排版、零冗余外部依赖。
  */
 
 import { useMemo } from "react"
@@ -129,9 +129,9 @@ export function LatencySection({
           <span>网络延迟</span>
           <span>监测状态</span>
         </div>
-        <div className="flex h-[76px] items-center justify-center rounded-[2px] border border-dashed border-border/60 bg-muted/15 px-3 text-center text-xs font-mono text-muted-foreground">
+        <div className="flex h-[76px] items-center justify-center rounded-2xl border border-dashed border-border/60 bg-muted/15 px-3 text-center text-xs font-mono text-muted-foreground">
           <span className="flex items-center gap-1.5">
-            <span className="size-1.5 rounded-[1px] bg-offline" />
+            <span className="size-1.5 rounded-full bg-offline" />
             <span>节点处于离线状态 · 延迟监测挂起</span>
           </span>
         </div>
@@ -144,24 +144,24 @@ export function LatencySection({
     return (
       <div className="mt-3.5 space-y-1.5 border-t border-border/50 pt-2.5">
         <div className="flex items-center justify-between text-xs font-mono font-medium text-muted-foreground pb-0.5">
-          <span className="h-3 w-14 rounded-[1px] bg-muted/40 animate-pulse" />
-          <span className="h-3 w-20 rounded-[1px] bg-muted/40 animate-pulse" />
+          <span className="h-3 w-14 rounded-full bg-muted/40 animate-pulse" />
+          <span className="h-3 w-20 rounded-full bg-muted/40 animate-pulse" />
         </div>
         <div className="flex h-[76px] flex-col justify-around py-1">
           <div className="flex items-center justify-between gap-2">
-            <span className="h-2.5 w-12 rounded-[1px] bg-muted/40 animate-pulse" />
-            <span className="h-2.5 flex-1 max-w-[80px] rounded-[1px] bg-muted/30 animate-pulse" />
-            <span className="h-2.5 w-10 rounded-[1px] bg-muted/40 animate-pulse" />
+            <span className="h-2.5 w-12 rounded-full bg-muted/40 animate-pulse" />
+            <span className="h-2.5 flex-1 max-w-[80px] rounded-full bg-muted/30 animate-pulse" />
+            <span className="h-2.5 w-10 rounded-full bg-muted/40 animate-pulse" />
           </div>
           <div className="flex items-center justify-between gap-2">
-            <span className="h-2.5 w-12 rounded-[1px] bg-muted/40 animate-pulse" />
-            <span className="h-2.5 flex-1 max-w-[80px] rounded-[1px] bg-muted/30 animate-pulse" />
-            <span className="h-2.5 w-10 rounded-[1px] bg-muted/40 animate-pulse" />
+            <span className="h-2.5 w-12 rounded-full bg-muted/40 animate-pulse" />
+            <span className="h-2.5 flex-1 max-w-[80px] rounded-full bg-muted/30 animate-pulse" />
+            <span className="h-2.5 w-10 rounded-full bg-muted/40 animate-pulse" />
           </div>
           <div className="flex items-center justify-between gap-2">
-            <span className="h-2.5 w-12 rounded-[1px] bg-muted/40 animate-pulse" />
-            <span className="h-2.5 flex-1 max-w-[80px] rounded-[1px] bg-muted/30 animate-pulse" />
-            <span className="h-2.5 w-10 rounded-[1px] bg-muted/40 animate-pulse" />
+            <span className="h-2.5 w-12 rounded-full bg-muted/40 animate-pulse" />
+            <span className="h-2.5 flex-1 max-w-[80px] rounded-full bg-muted/30 animate-pulse" />
+            <span className="h-2.5 w-10 rounded-full bg-muted/40 animate-pulse" />
           </div>
         </div>
       </div>
@@ -176,7 +176,7 @@ export function LatencySection({
           <span>网络延迟</span>
           <span>监测状态</span>
         </div>
-        <div className="flex h-[76px] items-center justify-center rounded-[2px] border border-dashed border-border/50 bg-muted/10 px-3 text-center text-xs font-mono text-muted-foreground/80">
+        <div className="flex h-[76px] items-center justify-center rounded-2xl border border-dashed border-border/50 bg-muted/10 px-3 text-center text-xs font-mono text-muted-foreground/80">
           <span>暂无配置延迟探测任务</span>
         </div>
       </div>

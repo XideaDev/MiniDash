@@ -6,87 +6,83 @@
 @custom-variant dark (&:is(.dark *));
 
 /* ==========================================================================
-   浅色模式设计变量：贯彻 AGENT.md 规范，严格采用微倒角（2px）与工业精密美学
+   浅色模式设计变量：Apple macOS 经典浅色风格（极净、优雅灰白、柔和阴影）
    ========================================================================== */
 :root {
-  /* 微倒角规范：彻底摒弃大圆角，统一为精密微倒角 2px */
-  --radius: 2px;
-  --background: oklch(0.99 0 0);
-  --foreground: oklch(0.14 0 0);
+  --radius: 14px;
+  --background: oklch(0.975 0.002 260);
+  --foreground: oklch(0.18 0.01 260);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.14 0 0);
-  --primary: oklch(0.14 0 0);
+  --card-foreground: oklch(0.18 0.01 260);
+  --primary: oklch(0.18 0.01 260);
   --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.95 0 0);
-  --secondary-foreground: oklch(0.14 0 0);
-  --muted: oklch(0.94 0 0);
-  --muted-foreground: oklch(0.38 0 0);
-  --accent: oklch(0.94 0 0);
-  --accent-foreground: oklch(0.14 0 0);
-  --destructive: oklch(0.45 0.2 25);
-  --border: oklch(0.88 0 0);
-  --ring: oklch(0.4 0 0);
-  --chart-1: oklch(0.25 0 0);
-  --chart-2: oklch(0.42 0 0);
-  --chart-3: oklch(0.55 0 0);
-  --chart-4: oklch(0.68 0 0);
-  --chart-5: oklch(0.8 0 0);
-  --ok: oklch(0.55 0 0);
-  --warn: oklch(0.45 0.12 70);
-  /* 状态指示色：明快通透的在线呼吸绿与沉稳离线灰 */
-  --online: oklch(0.62 0.18 145);
-  --offline: oklch(0.52 0 0);
-  /* 全局精细滚动条变量（浅色模式） */
+  --secondary: oklch(0.93 0.005 260);
+  --secondary-foreground: oklch(0.18 0.01 260);
+  --muted: oklch(0.94 0.005 260);
+  --muted-foreground: oklch(0.48 0.01 260);
+  --accent: oklch(0.92 0.005 260);
+  --accent-foreground: oklch(0.18 0.01 260);
+  --destructive: oklch(0.55 0.22 25);
+  --border: oklch(0.9 0.005 260);
+  --ring: oklch(0.5 0.02 260);
+  --chart-1: oklch(0.35 0.02 260);
+  --chart-2: oklch(0.48 0.02 260);
+  --chart-3: oklch(0.6 0.02 260);
+  --chart-4: oklch(0.72 0.02 260);
+  --chart-5: oklch(0.82 0.02 260);
+  --ok: oklch(0.6 0.16 150);
+  --warn: oklch(0.7 0.16 75);
+  --online: oklch(0.62 0.18 150);
+  --offline: oklch(0.55 0 0);
   --scrollbar-track: transparent;
-  --scrollbar-thumb: oklch(0.14 0 0 / 22%);
-  --scrollbar-thumb-hover: oklch(0.14 0 0 / 45%);
-  --scrollbar-thumb-active: oklch(0.14 0 0 / 65%);
+  --scrollbar-thumb: oklch(0.18 0 0 / 18%);
+  --scrollbar-thumb-hover: oklch(0.18 0 0 / 35%);
+  --scrollbar-thumb-active: oklch(0.18 0 0 / 55%);
 }
 
 /* ==========================================================================
-   深色模式设计变量：深邃高质感黑灰底色与精密微发光线条
+   深色模式设计变量：Apple macOS 深空灰与太空黑质感（深邃、柔光呼吸、精致层次）
    ========================================================================== */
 .dark {
   color-scheme: dark;
-  --background: oklch(0.12 0 0);
-  --foreground: oklch(0.96 0 0);
-  --card: oklch(0.16 0 0);
-  --card-foreground: oklch(0.96 0 0);
-  --primary: oklch(0.96 0 0);
-  --primary-foreground: oklch(0.12 0 0);
-  --secondary: oklch(0.22 0 0);
-  --secondary-foreground: oklch(0.96 0 0);
-  --muted: oklch(0.22 0 0);
-  --muted-foreground: oklch(0.72 0 0);
-  --accent: oklch(0.24 0 0);
-  --accent-foreground: oklch(0.96 0 0);
+  --background: oklch(0.11 0.005 260);
+  --foreground: oklch(0.98 0 0);
+  --card: oklch(0.16 0.008 260);
+  --card-foreground: oklch(0.98 0 0);
+  --primary: oklch(0.98 0 0);
+  --primary-foreground: oklch(0.11 0 0);
+  --secondary: oklch(0.22 0.008 260);
+  --secondary-foreground: oklch(0.98 0 0);
+  --muted: oklch(0.2 0.008 260);
+  --muted-foreground: oklch(0.68 0.01 260);
+  --accent: oklch(0.23 0.008 260);
+  --accent-foreground: oklch(0.98 0 0);
   --destructive: oklch(0.65 0.22 25);
-  --border: oklch(1 0 0 / 10%);
-  --ring: oklch(0.6 0 0);
+  --border: oklch(1 0 0 / 8%);
+  --ring: oklch(0.6 0.02 260);
   --chart-1: oklch(0.95 0 0);
   --chart-2: oklch(0.8 0 0);
   --chart-3: oklch(0.65 0 0);
   --chart-4: oklch(0.5 0 0);
   --chart-5: oklch(0.38 0 0);
-  --ok: oklch(0.65 0 0);
-  --warn: oklch(0.8 0.14 75);
-  /* 深色下通透发光的在线绿与离线哑光灰 */
-  --online: oklch(0.72 0.19 145);
-  --offline: oklch(0.45 0 0);
-  /* 全局精细滚动条变量（深色模式） */
+  --ok: oklch(0.68 0.17 150);
+  --warn: oklch(0.78 0.15 75);
+  --online: oklch(0.7 0.18 150);
+  --offline: oklch(0.48 0 0);
   --scrollbar-track: transparent;
-  --scrollbar-thumb: oklch(1 0 0 / 22%);
-  --scrollbar-thumb-hover: oklch(1 0 0 / 45%);
-  --scrollbar-thumb-active: oklch(1 0 0 / 65%);
+  --scrollbar-thumb: oklch(1 0 0 / 18%);
+  --scrollbar-thumb-hover: oklch(1 0 0 / 35%);
+  --scrollbar-thumb-active: oklch(1 0 0 / 55%);
 }
 
 @theme inline {
-  --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans SC", "Noto Sans CJK SC", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", "Hack", "Fira Code", ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Noto Sans Mono CJK SC", monospace;
-  --radius-sm: 1px;
-  --radius-md: 2px;
-  --radius-lg: 3px;
-  --radius-xl: 4px;
+  --font-sans: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+  --font-mono: "SF Mono", ui-monospace, Menlo, Monaco, Consolas, monospace;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-2xl: 24px;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -119,7 +115,13 @@
     scrollbar-width: thin;
     scrollbar-color: var(--scrollbar-thumb) var(--scrollbar-track);
   }
-  /* 全局精细工控滚动条：纵向宽度与横向高度适中 (6px)，微倒角 (2px)，清晰可见且不占用过多视觉空间 */
+
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  /* WebKit 滚动条样式定制 */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -128,201 +130,90 @@
     background: var(--scrollbar-track);
   }
   ::-webkit-scrollbar-thumb {
-    background-color: var(--scrollbar-thumb);
-    border-radius: 2px;
-    transition: background-color 150ms ease;
+    background: var(--scrollbar-thumb);
+    border-radius: 9999px;
   }
   ::-webkit-scrollbar-thumb:hover {
-    background-color: var(--scrollbar-thumb-hover);
-  }
-  ::-webkit-scrollbar-thumb:active {
-    background-color: var(--scrollbar-thumb-active);
-  }
-  ::-webkit-scrollbar-corner {
-    background: transparent;
-  }
-  /* 全局字体渲染平滑度与优化排版 */
-  html {
-    font-family: var(--font-sans);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-    scrollbar-gutter: stable;
-  }
-  body {
-    @apply bg-background text-foreground antialiased;
-    font-family: var(--font-sans);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-    /* 细腻的工业精密网格点阵底纹（低透明度） */
-    background-image: radial-gradient(circle at 1px 1px, oklch(0.5 0 0 / 4%) 1px, transparent 0);
-    background-size: 24px 24px;
-  }
-  .dark body {
-    background-image: radial-gradient(circle at 1px 1px, oklch(1 0 0 / 4%) 1px, transparent 0);
+    background: var(--scrollbar-thumb-hover);
   }
 }
 
 /* ==========================================================================
-   动效与工具样式：遵循 AGENT.md 要求的平滑过渡动画
+   Apple / macOS 现代流体卡片与毛玻璃规范
    ========================================================================== */
-
-/* 数字等宽排版，保证数值高频刷新时不跳动 */
-.tnum { font-variant-numeric: tabular-nums; }
-
-/* 页面和组件渐入平滑动画：动画完成后重置 transform 为 none，避免建立包含块导致子元素 sticky 定位失效 */
-@keyframes fadeInSlide {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: none;
-  }
+.apple-card {
+  border-radius: var(--radius-lg);
+  background: var(--color-card);
+  border: 1px solid var(--color-border);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.animate-fade-in {
-  animation: fadeInSlide 240ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+.dark .apple-card {
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35);
 }
 
-/* 隐藏横向滚动条工具类（用于吸顶操作条与横向标签栏平滑滑动） */
-.no-scrollbar {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.no-scrollbar::-webkit-scrollbar {
-  display: none;
+.apple-card:hover {
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
-/* 在线状态呼吸辉光微动效 */
-@keyframes pulseDot {
+.dark .apple-card:hover {
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.55);
+}
+
+/* Apple 灵动胶囊 */
+.apple-pill {
+  border-radius: 9999px;
+  border: 1px solid var(--color-border);
+  background: var(--color-card);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* 在线呼吸光圈 */
+@keyframes apple-breathe {
   0%, 100% {
-    transform: scale(1);
     opacity: 1;
-    box-shadow: 0 0 0 0 oklch(var(--online) / 40%);
+    transform: scale(1);
+    box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5);
   }
   50% {
-    transform: scale(1.05);
     opacity: 0.85;
-    box-shadow: 0 0 6px 1px oklch(var(--online) / 50%);
+    transform: scale(1.04);
+    box-shadow: 0 0 10px 2px rgba(34, 197, 94, 0.4);
   }
 }
 
 .pulse-online {
-  animation: pulseDot 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-}
-
-/* 专属 SVG 地球节点呼吸光环：仅改变透明度与描边，绝不碰 transform，确保与地球自转完美同频 */
-@keyframes pulseSvgGlow {
-  0%, 100% {
-    opacity: 0.85;
-    stroke-width: 1;
-  }
-  50% {
-    opacity: 0.25;
-    stroke-width: 1.8;
-  }
-}
-
-.pulse-globe-beacon {
-  animation: pulseSvgGlow 2s ease-in-out infinite;
-}
-
-/* 全球节点大圆网络互联链路流光动效：模拟海底光缆与卫星骨干网通信数据包 */
-@keyframes globeArcFlow {
-  to {
-    stroke-dashoffset: -20;
-  }
-}
-
-.globe-arc-flowing {
-  stroke-dasharray: 4 6;
-  animation: globeArcFlow 1.8s linear infinite;
-}
-
-/* 雷达扫掠弧线渐隐呼吸 */
-@keyframes radarSweepGlow {
-  0%, 100% {
-    opacity: 0.25;
-  }
-  50% {
-    opacity: 0.65;
-  }
-}
-
-.globe-radar-sweep {
-  animation: radarSweepGlow 2.4s ease-in-out infinite;
+  animation: apple-breathe 2.8s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
 /* ==========================================================================
-   Recharts Brush 时间滑块工控暗黑模式与微倒角美化
-   彻底根治默认白色大底色块刺眼的问题，自动适配深浅色背景与发光指针
+   栅格与图表容器（支持兼容原有类名）
    ========================================================================== */
-.recharts-brush {
-  user-select: none;
-}
-
-.recharts-brush .recharts-brush-slide {
-  fill: var(--color-muted) !important;
-  fill-opacity: 0.55 !important;
-  stroke: var(--color-border) !important;
-  stroke-width: 1px !important;
-  rx: 2px !important;
-}
-
-.recharts-brush > rect:not(.recharts-brush-slide) {
-  fill: var(--color-card) !important;
-  fill-opacity: 0.8 !important;
-  stroke: var(--color-border) !important;
-  stroke-width: 1px !important;
-  rx: 2px !important;
-}
-
-.recharts-brush .recharts-brush-traveller rect {
-  fill: var(--color-secondary) !important;
-  stroke: var(--color-muted-foreground) !important;
-  stroke-width: 1.2px !important;
-  rx: 1px !important;
-}
-
-.recharts-brush .recharts-brush-traveller path,
-.recharts-brush .recharts-brush-traveller line {
-  stroke: var(--color-foreground) !important;
-  stroke-width: 1.2px !important;
-}
-
-.recharts-brush-texts text {
-  fill: var(--color-foreground) !important;
-  font-family: var(--font-mono) !important;
-  font-size: 11px !important;
-  font-weight: 500 !important;
-}
-
-
-/* 监控图表共用栅格：单图铺满，宽屏末行两图均分，避免固定列数留下空位。 */
 .minidash-chart-grid,
 .monitor-chart-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  gap: 0.75rem;
+  gap: 1rem;
 }
 .minidash-chart-grid:empty,
 .monitor-chart-grid:empty { display: none; }
 .minidash-chart-grid > *,
 .monitor-chart-grid > * { min-width: 0; }
+
 @media (min-width: 1024px) {
   .minidash-chart-grid, .monitor-chart-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .minidash-chart-grid > :last-child:nth-child(odd),
   .monitor-chart-grid > :last-child:nth-child(odd) { grid-column: 1 / -1; }
 }
-/* 占比图使用紧凑列宽，末行按实际卡片数量均分，不拉出一列无意义的留白。 */
+
 @media (min-width: 640px) {
   .minidash-chart-grid--compact, .monitor-chart-grid--compact { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .minidash-chart-grid--compact > :last-child:nth-child(odd),
   .monitor-chart-grid--compact > :last-child:nth-child(odd) { grid-column: 1 / -1; }
 }
+
 @media (min-width: 1100px) {
   .minidash-chart-grid--compact, .monitor-chart-grid--compact { grid-template-columns: repeat(6, minmax(0, 1fr)); }
   .minidash-chart-grid--compact > *, .monitor-chart-grid--compact > * { grid-column: span 2; }
@@ -335,7 +226,7 @@
   .minidash-chart-grid--compact > :last-child:nth-child(3n + 1),
   .monitor-chart-grid--compact > :last-child:nth-child(3n + 1) { grid-column: 1 / -1; }
 }
-/* 交互视觉沿用全局主题，包含 SVG 键盘焦点、复选框与缩放手柄内部线条。 */
+
 .minidash-charts input[type="checkbox"],
 .monitor-charts input[type="checkbox"] { accent-color: var(--color-primary); }
 .minidash-charts :is(button, input, [tabindex]):focus-visible,
@@ -343,16 +234,23 @@
   outline: 2px solid var(--color-ring);
   outline-offset: 2px;
 }
+
 .minidash-charts .recharts-default-tooltip,
 .monitor-charts .recharts-default-tooltip {
   max-width: 100%;
   overflow-wrap: anywhere;
-  transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
+  border-radius: var(--radius-md) !important;
+  background-color: var(--color-card) !important;
+  border: 1px solid var(--color-border) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3) !important;
+  backdrop-filter: blur(12px) !important;
 }
+
 .minidash-charts :is(.recharts-tooltip-cursor, .recharts-active-dot, .recharts-brush-traveller),
 .monitor-charts :is(.recharts-tooltip-cursor, .recharts-active-dot, .recharts-brush-traveller) {
   transition: fill 160ms ease, stroke 160ms ease;
 }
+
 @media (prefers-reduced-motion: reduce) {
   .minidash-charts *, .minidash-charts *::before, .minidash-charts *::after,
   .monitor-charts *, .monitor-charts *::before, .monitor-charts *::after {

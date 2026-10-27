@@ -20,20 +20,20 @@ export function DetailChartSkeleton({
           <UptimeSlaBarSkeleton hours={hours} />
           <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
             {[0, 1, 2, 3].map((i) => (
-              <Skeleton key={i} className="h-24 rounded-[2px]" />
+              <Skeleton key={i} className="h-24 rounded-2xl" />
             ))}
           </div>
         </>
       ) : (
         <div className="grid gap-2.5 sm:grid-cols-2 xl:grid-cols-3">
           {[0, 1, 2].map((i) => (
-            <Skeleton key={i} className="h-40 rounded-[2px]" />
+            <Skeleton key={i} className="h-40 rounded-2xl" />
           ))}
         </div>
       )}
       <div className={tab === "resources" ? "grid gap-3 lg:grid-cols-2" : "grid gap-3"}>
         {Array.from({ length: tab === "resources" ? 4 : 1 }, (_, i) => (
-          <div key={i} className="rounded-[2px] border border-border/70 bg-card/60 p-3">
+          <div key={i} className="rounded-2xl border border-border/70 bg-card/60 p-3">
             <Skeleton className="mb-3 h-4 w-36" />
             <Skeleton className={tab === "resources" ? "h-48 w-full" : "h-80 w-full"} />
             <Skeleton className="mt-2 h-3 w-56" />
@@ -50,14 +50,14 @@ export function NodeDetailSkeleton() {
     <div aria-label="正在加载节点详情" className="animate-fade-in space-y-4">
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
         {[0, 1, 2, 3].map((i) => (
-          <Skeleton key={i} className="h-48 rounded-[2px]" />
+          <Skeleton key={i} className="h-48 rounded-2xl" />
         ))}
       </div>
-      <div className="rounded-[2px] border border-border/70 p-3">
+      <div className="rounded-2xl border border-border/70 p-3">
         <Skeleton className="mb-3 h-5 w-48" />
         <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
           {[0, 1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-40 rounded-[2px]" />
+            <Skeleton key={i} className="h-40 rounded-2xl" />
           ))}
         </div>
       </div>

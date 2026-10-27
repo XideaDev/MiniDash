@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="zh-CN" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minidash 方案B 高保真原型选型系统</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+            mono: ['ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas', 'monospace'],
+          },
+          colors: {
+            border: 'hsl(var(--border))',
+            background: 'hsl(var(--background))',
+            foreground: 'hsl(var(--foreground))',
+            muted: 'hsl(var(--muted))',
+            'muted-foreground': 'hsl(var(--muted-foreground))',
+            card: 'hsl(var(--card))',
+            primary: 'hsl(var(--primary))',
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --background: 0 0% 100%;
+      --foreground: 240 10% 3.9%;
+      --card: 0 0% 98%;
+      --muted: 240 4.8% 95.9%;
+      --muted-foreground: 240 3.8% 46.1%;
+      --border: 240 5.9% 90%;
+      --primary: 240 5.9% 10%;
+    }
+    .dark {
+      --background: 240 10% 3.9%;
+      --foreground: 0 0% 98%;
+      --card: 240 10% 5.5%;
+      --muted: 240 3.7% 12%;
+      --muted-foreground: 240 5% 64.9%;
+      --border: 240 3.7% 15.9%;
+      --primary: 0 0% 98%;
+    }
+    @keyframes pulse-glow {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.9); }
+    }
+    .pulse-online {
+      animation: pulse-glow 2.5s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+    .smooth-transition {
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+  </style>
+</head>
+<body class="bg-background text-foreground antialiased min-h-screen selection:bg-neutral-800 selection:text-white">
+
+  <!-- 顶部原型控制与方案切换 Bar (仅供选型交互演示) -->
+  <aside class="sticky top-0 z-50 border-b border-border bg-card/90 backdrop-blur-md px-4 py-2.5">
+    <div class="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3 text-xs">
+      <div class="flex items-center gap-2">
+        <span class="size-2 rounded-full bg-emerald-500 shadow-xs shadow-emerald-500/50 pulse-online"></span>
+        <span class="font-bold tracking-tight text-sm">Minidash 一体化原型设计实验室</span>
+        <span class="rounded bg-muted px-1.5 py-0.5 text-[10px] text-muted-foreground font-mono">方案B深度选型</span>
+      </div>
+
+      <div class="flex items-center gap-2">
+        <!-- 方案选择器 -->
+        <div class="flex rounded-lg border border-border bg-muted/60 p-1">
+          <button onclick="switchScheme(1)" id="tab-1" class="rounded-md px-3 py-1 font-medium transition-all bg-background text-foreground shadow-xs">
+            方案 1：现代 Bento 画刊风 (主推)
+          </button>
+          <button onclick="switchScheme(2)" id="tab-2" class="rounded-md px-3 py-1 font-medium text-muted-foreground hover:text-foreground transition-all">
+            方案 2：极简公信力状态页
+          </button>
+          <button onclick="switchScheme(3)" id="tab-3" class="rounded-md px-3 py-1 font-medium text-muted-foreground hover:text-foreground transition-all">
+            方案 3：模块化双模工作台
+          </button>
+        </div>
+
+        <!-- 主题切换 -->
+        <button onclick="toggleTheme()" class="flex size-8 items-center justify-center rounded-lg border border-border hover:bg-muted text-muted-foreground hover:text-foreground transition-colors" title="切换深色/浅色">
+          <svg id="theme-icon-sun" class="size-4 hidden dark:block text-amber-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
+          <svg id="theme-icon-moon" class="size-4 block dark:hidden text-neutral-600" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/></svg>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ========================================================================= -->
+  <!-- 方案 1：现代 Bento 画刊风 (Vercel / Linear 风格)                           -->
+  <!-- ========================================================================= -->
+  <main id="scheme-1" class="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8 space-y-8">
+    <!-- 头部品牌与全局概览 -->
+    <header class="flex flex-col gap-4 md:flex-row md:items-end md:justify-between border-b border-border/70 pb-6">
+      <div>
+        <div class="flex items-center gap-2 text-xs font-mono uppercase tracking-wider text-muted-foreground">
+          <span>XideaDev Cloud</span>
+          <span>·</span>
+          <span class="text-emerald-500 font-semibold flex items-center gap-1">
+            <span class="size-1.5 rounded-full bg-emerald-500"></span> ALL SYSTEMS HEALTHY
+          </span>
+        </div>
+        <h1 class="mt-1 text-2xl font-bold tracking-tight sm:text-3xl">个人服务导航与集群态势</h1>
+        <p class="mt-1 text-xs text-muted-foreground">聚合 8 个核心自建云端服务与 2 台物理/云实例秒级遥测</p>
+      </div>
+
+      <!-- 搜索与快捷过滤 -->
+      <div class="flex items-center gap-2">
+        <div class="relative w-64">
+          <input type="text" placeholder="⌘K 搜索服务或服务器..." class="w-full rounded-lg border border-border bg-card px-3 py-1.5 pl-8 text-xs outline-none focus:border-neutral-500 text-foreground transition-all">
+          <svg class="absolute left-2.5 top-2 size-3.5 text-muted-foreground" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+        </div>
+      </div>
+    </header>
+
+    <!-- 方案1 主体内容：黄金左右分栏 (左：快捷服务导航 Bento；右：核心实例遥测卡片) -->
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 items-start">
+      
+      <!-- 左列：常用服务 URL 导航矩阵 (占 8 列) -->
+      <section class="lg:col-span-8 space-y-6">
+        <!-- 分类选择 Tag -->
+        <div class="flex items-center justify-between border-b border-border/40 pb-2">
+          <div class="flex gap-2 text-xs font-medium">
+            <button onclick="filterCategory(this, 'all')" class="category-btn active rounded-md bg-muted px-2.5 py-1 text-foreground transition-all font-semibold">全部服务 (8)</button>
+            <button onclick="filterCategory(this, 'dev')" class="category-btn rounded-md px-2.5 py-1 text-muted-foreground hover:text-foreground transition-all">开发与代码 (3)</button>
+            <button onclick="filterCategory(this, 'media')" class="category-btn rounded-md px-2.5 py-1 text-muted-foreground hover:text-foreground transition-all">媒体与影音 (2)</button>
+            <button onclick="filterCategory(this, 'cloud')" class="category-btn rounded-md px-2.5 py-1 text-muted-foreground hover:text-foreground transition-all">存储与网盘 (3)</button>
+          </div>
+          <span class="text-[11px] text-muted-foreground hidden sm:inline">点击直达外链，绿标代表存活</span>
+        </div>
+
+        <!-- 服务卡片 Bento Grid -->
+        <div class="grid grid-cols-1 gap-3.5 sm:grid-cols-2 md:grid-cols-3">
+          
+          <!-- 服务卡片 1 -->
+          <a href="#" class="service-card dev group relative flex flex-col justify-between rounded-xl border border-border bg-card p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-neutral-500 hover:shadow-lg">
+            <div class="flex items-start justify-between">
+              <div class="flex size-9 items-center justify-center rounded-lg border border-border bg-muted font-mono font-bold text-xs text-foreground group-hover:scale-105 transition-transform">
+                GIT
+              </div>
+              <!-- 实时健康徽章 -->
+              <span class="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-mono text-emerald-500">
+                <span class="size-1 rounded-full bg-emerald-500"></span> 200 OK · 24ms
+              </span>
+            </div>
+            <div class="mt-4">
+              <h3 class="text-sm font-semibold tracking-tight text-foreground flex items-center justify-between">
+                <span>Gitea 私有代码库</span>
+                <span class="text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity text-xs">↗</span>
+              </h3>
+              <p class="mt-1 text-xs text-muted-foreground line-clamp-1">git.5956.net · 自建 Git 仓库与流水线</p>
+            </div>
+            <div class="mt-3 flex items-center justify-between pt-2 border-t border-border/40 text-[10px] text-muted-foreground font-mono">
+              <span>跑在 OCR-AMD2-SG</span>
+              <span class="text-emerald-500">HTTP 状态健康</span>
+            </div>
+          </a>
+
+          <!-- 服务卡片 2 -->
+          <a href="#" class="service-card cloud group relative flex flex-col justify-between rounded-xl border border-border bg-card p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-neutral-500 hover:shadow-lg">
+            <div class="flex items-start justify-between">
+              <div class="flex size-9 items-center justify-center rounded-lg border border-border bg-muted font-mono font-bold text-xs text-foreground group-hover:scale-105 transition-transform">
+                NC
+              </div>
+              <span class="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-mono text-emerald-500">
+                <span class="size-1 rounded-full bg-emerald-500"></span> 200 OK · 48ms
+              </span>
+            </div>
+            <div class="mt-4">
+              <h3 class="text-sm font-semibold tracking-tight text-foreground flex items-center justify-between">
+                <span>Nextcloud 私有云盘</span>
+                <span class="text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity text-xs">↗</span>
+              </h3>
+              <p class="mt-1 text-xs text-muted-foreground line-clamp-1">cloud.5956.net · 多端文件同步</p>
+            </div>
+            <div class="mt-3 flex items-center justify-between pt-2 border-t border-border/40 text-[10px] text-muted-foreground font-mono">
+              <span>已用 320 GB / 2 TB</span>
+              <span class="text-emerald-500">在线</span>
+            </div>
+          </a>
+
+          <!-- 服务卡片 3 -->
+          <a href="#" class="service-card media group relative flex flex-col justify-between rounded-xl border border-border bg-card p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-neutral-500 hover:shadow-lg">
+            <div class="flex items-start justify-between">
+              <div class="flex size-9 items-center justify-center rounded-lg border border-border bg-muted font-mono font-bold text-xs text-foreground group-hover:scale-105 transition-transform">
+                JF
+              </div>
+              <span class="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-mono text-emerald-500">
+                <span class="size-1 rounded-full bg-emerald-500"></span> 200 OK · 38ms
+              </span>
+            </div>
+            <div class="mt-4">
+              <h3 class="text-sm font-semibold tracking-tight text-foreground flex items-center justify-between">
+                <span>Jellyfin 影视中心</span>
+                <span class="text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity text-xs">↗</span>
+              </h3>
+              <p class="mt-1 text-xs text-muted-foreground line-clamp-1">media.5956.net · 4K 影音转码推流</p>
+            </div>
+            <div class="mt-3 flex items-center justify-between pt-2 border-t border-border/40 text-[10px] text-muted-foreground font-mono">
+              <span>跑在 本地 NAS-01</span>
+              <span class="text-emerald-500">在线</span>
+            </div>
+          </a>
+
+          <!-- 服务卡片 4 -->
+          <a href="#" class="service-card dev group relative flex flex-col justify-between rounded-xl border border-border bg-card p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-neutral-500 hover:shadow-lg">
+            <div class="flex items-start justify-between">
+              <div class="flex size-9 items-center justify-center rounded-lg border border-border bg-muted font-mono font-bold text-xs text-foreground group-hover:scale-105 transition-transform">
+                VW
+              </div>
+              <span class="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-mono text-emerald-500">
+                <span class="size-1 rounded-full bg-emerald-500"></span> 200 OK · 18ms
+              </span>
+            </div>
+            <div class="mt-4">
+              <h3 class="text-sm font-semibold tracking-tight text-foreground flex items-center justify-between">
+                <span>Vaultwarden 密码库</span>
+                <span class="text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity text-xs">↗</span>
+              </h3>
+              <p class="mt-1 text-xs text-muted-foreground line-clamp-1">pass.5956.net · Bitwarden 兼容服务端</p>
+            </div>
+            <div class="mt-3 flex items-center justify-between pt-2 border-t border-border/40 text-[10px] text-muted-foreground font-mono">
+              <span>SSL 证书 85 天有效</span>
+              <span class="text-emerald-500">高防保障</span>
+            </div>
+          </a>
+
+          <!-- 服务卡片 5 -->
+          <a href="#" class="service-card dev group relative flex flex-col justify-between rounded-xl border border-border bg-card p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-neutral-500 hover:shadow-lg">
+            <div class="flex items-start justify-between">
+              <div class="flex size-9 items-center justify-center rounded-lg border border-border bg-muted font-mono font-bold text-xs text-foreground group-hover:scale-105 transition-transform">
+                DOC
+              </div>
+              <span class="inline-flex items-center gap-1 rounded-full border border-emerald-500/20 bg-emerald-500/10 px-2 py-0.5 text-[10px] font-mono text-emerald-500">
+                <span class="size-1 rounded-full bg-emerald-500"></span> 200 OK · 32ms
+              </span>
+            </div>
+            <div class="mt-4">
+              <h3 class="text-sm font-semibold tracking-tight text-foreground flex items-center justify-between">
+                <span>Docker Portainer</span>
+                <span class="text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity text-xs">↗</span>
+              </h3>
+              <p class="mt-1 text-xs text-muted-foreground line-clamp-1">docker.5956.net · 容器集群编排面板</p>
+            </div>
+            <div class="mt-3 flex items-center justify-between pt-2 border-t border-border/40 text-[10px] text-muted-foreground font-mono">
+              <span>运行 14 个活跃容器</span>
+              <span class="text-emerald-500">正常</span>
+            </div>
+          </a>
+
+          <!-- 服务卡片 6 (展示告警状态) -->
+          <a href="#" class="service-card media group relative flex flex-col justify-between rounded-xl border border-amber-500/30 bg-card p-4 transition-all duration-200 hover:-translate-y-0.5 hover:border-amber-500 hover:shadow-lg">
+            <div class="flex items-start justify-between">
+              <div class="flex size-9 items-center justify-center rounded-lg border border-border bg-muted font-mono font-bold text-xs text-foreground group-hover:scale-105 transition-transform">
+                QB
+              </div>
+              <span class="inline-flex items-center gap-1 rounded-full border border-amber-500/30 bg-amber-500/10 px-2 py-0.5 text-[10px] font-mono text-amber-500">
+                <span class="size-1 rounded-full bg-amber-500 animate-ping"></span> 磁盘已满 92%
+              </span>
+            </div>
+            <div class="mt-4">
+              <h3 class="text-sm font-semibold tracking-tight text-foreground flex items-center justify-between">
+                <span>qBittorrent 下载器</span>
+                <span class="text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity text-xs">↗</span>
+              </h3>
+              <p class="mt-1 text-xs text-muted-foreground line-clamp-1">qb.5956.net · PT 做种与离线挂机</p>
+            </div>
+            <div class="mt-3 flex items-center justify-between pt-2 border-t border-border/40 text-[10px] text-muted-foreground font-mono">
+              <span class="text-amber-500">下行 18.2 MB/s</span>
+              <span>剩余 18 GB</span>
+            </div>
+          </a>
+
+        </div>
+      </section>
+
+      <!-- 右列：核心监控探针与实例指标 (占 4 列) -->
+      <section class="lg:col-span-4 space-y-4">
+        <div class="flex items-center justify-between border-b border-border/40 pb-2">
+          <h2 class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">服务器底层探针</h2>
+          <span class="text-[11px] font-mono text-emerald-500">2 / 2 在线</span>
+        </div>
+
+        <!-- 节点卡片 1 (在线实例) -->
+        <div class="rounded-xl border border-border bg-card p-4.5 space-y-3.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="size-2 rounded-full bg-emerald-500 pulse-online"></span>
+              <span class="font-bold text-sm">OCR-AMD2-SG</span>
+              <span class="rounded bg-muted px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground">SG 新加坡</span>
+            </div>
+            <span class="text-xs text-muted-foreground font-mono">在线 9 天</span>
+          </div>
+
+          <!-- 迷你指标条 -->
+          <div class="space-y-2 text-xs">
+            <div>
+              <div class="flex justify-between text-muted-foreground text-[11px] mb-1">
+                <span>CPU 负荷 (2 核 AMD EPYC)</span>
+                <span class="font-mono text-foreground font-medium">14.2%</span>
+              </div>
+              <div class="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+                <div class="h-full bg-emerald-500 rounded-full" style="width: 14.2%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-muted-foreground text-[11px] mb-1">
+                <span>物理内存 (1.0 GB)</span>
+                <span class="font-mono text-foreground font-medium">352 MB (35%)</span>
+              </div>
+              <div class="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+                <div class="h-full bg-sky-500 rounded-full" style="width: 35%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-muted-foreground text-[11px] mb-1">
+                <span>系统存储 (/dev/sda1)</span>
+                <span class="font-mono text-foreground font-medium">6.9 GB / 48 GB (14%)</span>
+              </div>
+              <div class="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+                <div class="h-full bg-violet-500 rounded-full" style="width: 14%"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 实时网速吞吐 -->
+          <div class="flex items-center justify-between border-t border-border/60 pt-2.5 text-[11px] font-mono">
+            <div class="flex items-center gap-1.5">
+              <span class="text-emerald-500">↓ 1.4 MB/s</span>
+              <span class="text-sky-500">↑ 820 KB/s</span>
+            </div>
+            <span class="text-muted-foreground">TCP 延迟: 28ms</span>
+          </div>
+        </div>
+
+        <!-- 节点卡片 2 (家庭 NAS) -->
+        <div class="rounded-xl border border-border bg-card p-4.5 space-y-3.5">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+              <span class="size-2 rounded-full bg-emerald-500 pulse-online"></span>
+              <span class="font-bold text-sm">HOME-NAS-01</span>
+              <span class="rounded bg-muted px-1.5 py-0.5 text-[10px] font-mono text-muted-foreground">CN 内网穿透</span>
+            </div>
+            <span class="text-xs text-muted-foreground font-mono">在线 42 天</span>
+          </div>
+
+          <div class="space-y-2 text-xs">
+            <div>
+              <div class="flex justify-between text-muted-foreground text-[11px] mb-1">
+                <span>CPU (4 核 N100)</span>
+                <span class="font-mono text-foreground font-medium">28.0%</span>
+              </div>
+              <div class="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+                <div class="h-full bg-emerald-500 rounded-full" style="width: 28%"></div>
+              </div>
+            </div>
+
+            <div>
+              <div class="flex justify-between text-muted-foreground text-[11px] mb-1">
+                <span>内存 (16 GB DDR5)</span>
+                <span class="font-mono text-foreground font-medium">4.2 GB (26%)</span>
+              </div>
+              <div class="h-1.5 w-full rounded-full bg-muted overflow-hidden">
+                <div class="h-full bg-sky-500 rounded-full" style="width: 26%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between border-t border-border/60 pt-2.5 text-[11px] font-mono">
+            <span class="text-emerald-500">↓ 18.2 MB/s (正在下行)</span>
+            <span class="text-muted-foreground">存储: 4.8 / 16 TB</span>
+          </div>
+        </div>
+
+      </section>
+
+    </div>
+  </main>
+
+
+  <!-- ========================================================================= -->
+  <!-- 方案 2：极简公信力状态页 (Cloudflare / GitHub Status 风格)                  -->
+  <!-- ========================================================================= -->
+  <main id="scheme-2" class="mx-auto max-w-5xl px-4 py-8 sm:px-6 space-y-8 hidden">
+    <!-- 顶部状态大横幅 -->
+    <div class="rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-5 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <span class="flex size-4 items-center justify-center rounded-full bg-emerald-500/20">
+          <span class="size-2 rounded-full bg-emerald-500 pulse-online"></span>
+        </span>
+        <div>
+          <h2 class="text-base font-bold text-foreground">所有系统与自建应用运行正常</h2>
+          <p class="text-xs text-muted-foreground">过去 90 天平均可用率 99.98% · 最近一次巡检于 30 秒前</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2 font-mono text-xs">
+        <span class="rounded bg-muted px-2 py-1">2 节点在线</span>
+        <span class="rounded bg-muted px-2 py-1">8 服务存活</span>
+      </div>
+    </div>
+
+    <!-- 服务导航：分类抽屉流 -->
+    <section class="space-y-4">
+      <h2 class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">服务导航书签</h2>
+      
+      <div class="space-y-3">
+        <!-- 分组 1: 核心生产 -->
+        <div class="rounded-xl border border-border bg-card overflow-hidden">
+          <div class="bg-muted/40 px-4 py-2.5 flex items-center justify-between text-xs font-semibold border-b border-border/50">
+            <span>核心基础设施与存储</span>
+            <span class="text-muted-foreground font-normal">3 个服务</span>
+          </div>
+          <div class="divide-y divide-border/40">
+            <div class="p-3.5 flex items-center justify-between hover:bg-muted/20 transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="size-2 rounded-full bg-emerald-500"></span>
+                <div>
+                  <a href="#" class="text-sm font-medium hover:underline text-foreground">Nextcloud 私有云</a>
+                  <p class="text-xs text-muted-foreground font-mono">https://cloud.5956.net</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4 text-xs font-mono text-muted-foreground">
+                <span class="text-emerald-500">99.99% SLA</span>
+                <span>38ms</span>
+                <a href="#" class="rounded border border-border px-2 py-1 text-[11px] hover:text-foreground">访问 ↗</a>
+              </div>
+            </div>
+
+            <div class="p-3.5 flex items-center justify-between hover:bg-muted/20 transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="size-2 rounded-full bg-emerald-500"></span>
+                <div>
+                  <a href="#" class="text-sm font-medium hover:underline text-foreground">Gitea 代码托管</a>
+                  <p class="text-xs text-muted-foreground font-mono">https://git.5956.net</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4 text-xs font-mono text-muted-foreground">
+                <span class="text-emerald-500">100% SLA</span>
+                <span>24ms</span>
+                <a href="#" class="rounded border border-border px-2 py-1 text-[11px] hover:text-foreground">访问 ↗</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 分组 2: 影音娱乐 -->
+        <div class="rounded-xl border border-border bg-card overflow-hidden">
+          <div class="bg-muted/40 px-4 py-2.5 flex items-center justify-between text-xs font-semibold border-b border-border/50">
+            <span>多媒体与流媒体</span>
+            <span class="text-muted-foreground font-normal">2 个服务</span>
+          </div>
+          <div class="divide-y divide-border/40">
+            <div class="p-3.5 flex items-center justify-between hover:bg-muted/20 transition-colors">
+              <div class="flex items-center gap-3">
+                <span class="size-2 rounded-full bg-emerald-500"></span>
+                <div>
+                  <a href="#" class="text-sm font-medium hover:underline text-foreground">Jellyfin 影视站</a>
+                  <p class="text-xs text-muted-foreground font-mono">https://media.5956.net</p>
+                </div>
+              </div>
+              <div class="flex items-center gap-4 text-xs font-mono text-muted-foreground">
+                <span class="text-emerald-500">99.85% SLA</span>
+                <span>45ms</span>
+                <a href="#" class="rounded border border-border px-2 py-1 text-[11px] hover:text-foreground">访问 ↗</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 探针部分：Uptime 90天 可用率历史条风格 -->
+    <section class="space-y-4">
+      <h2 class="text-xs font-semibold uppercase tracking-wider text-muted-foreground">节点硬件与可用率追踪</h2>
+      
+      <div class="rounded-xl border border-border bg-card p-5 space-y-5">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-border/50 pb-3">
+          <div>
+            <h3 class="font-bold text-sm">OCR-AMD2-SG (Oracle Cloud 新加坡)</h3>
+            <p class="text-xs text-muted-foreground font-mono">AMD EPYC 2 Cores · 1.0 GB RAM · 168.107.81.167</p>
+          </div>
+          <div class="text-xs font-mono text-emerald-500 text-right">
+            <span>99.98% 可用率 (最近90天)</span>
+          </div>
+        </div>
+
+        <!-- 90天微型柱状图条 (GitHub Status 风格) -->
+        <div>
+          <div class="flex items-center gap-1 h-8">
+            <!-- 模拟 40 根小竖条 -->
+            <div class="flex-1 h-full bg-emerald-500/80 rounded-xs hover:bg-emerald-400 transition-colors" title="Day 1: 100%"></div>
+            <div class="flex-1 h-full bg-emerald-500/80 rounded-xs hover:bg-emerald-400 transition-colors" title="Day 2: 100%"></div>
+            <div class="flex-1 h-full bg-emerald-500/80 rounded-xs hover:bg-emerald-400 transition-colors" title="Day 3: 100%"></div>
+            <div class="flex-1 h-full bg-emerald-500/80 rounded-xs hover:bg-emerald-400 transition-colors" title="Day 4: 100%"></div>
+            <div class="flex-1 h-full bg-emerald-500/80 rounded-xs hover:bg-emerald-400 transition-colors" title="Day 5: 100%"></div>
+            <div class="flex-1 h-full bg-amber-500/80 rounded-xs hover:bg-amber-400 transition-colors" title="Day 6: 维护重启 2 分钟"></div>
+            <div class="flex-1 h-full bg-emerald-500/80 rounded-xs hover:bg-emerald-400 transition-colors" title="Day 7: 100%"></div>
+            <div class="flex-1 h-full bg-emerald-500/80 rounded-xs hover:bg-emerald-400 transition-colors" title="Day 8: 100%"></div>
+            <div class="flex-1 h-full bg-emerald-500/80 rounded-xs hover:bg-emerald-400 transition-colors" title="Day 9: 100%"></div>
+            <div class="flex-1 h-full bg-emerald-500/80 rounded-xs hover:bg-emerald-400 transition-colors" title="Day 10: 100%"></div>
+          </div>
+          <div class="flex justify-between text-[10px] text-muted-foreground font-mono mt-1.5">
+            <span>90 天前</span>
+            <span>今天 (零故障运行中)</span>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+
+  <!-- ========================================================================= -->
+  <!-- 方案 3：模块化双模工作台 (Raycast / Modern SaaS 风格)                      -->
+  <!-- ========================================================================= -->
+  <main id="scheme-3" class="mx-auto max-w-6xl px-4 py-8 sm:px-6 space-y-6 hidden">
+    <!-- 顶部双模切换器 (导航视图 VS 探针监控视图) -->
+    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-border pb-4">
+      <div>
+        <h1 class="text-xl font-bold tracking-tight">个人工作台与资源总览</h1>
+        <p class="text-xs text-muted-foreground">根据您的当前使用场景，自由切换书签工作流与深层探针</p>
+      </div>
+
+      <!-- 双模切换开关 -->
+      <div class="flex rounded-lg border border-border bg-muted p-1 text-xs">
+        <button onclick="switchMode3('nav')" id="subtab-nav" class="rounded-md px-4 py-1.5 font-medium bg-background text-foreground shadow-xs transition-all">
+          🚀 常用服务导航 (8)
+        </button>
+        <button onclick="switchMode3('monitor')" id="subtab-monitor" class="rounded-md px-4 py-1.5 font-medium text-muted-foreground hover:text-foreground transition-all">
+          📊 探针状态大屏 (2 节点)
+        </button>
+      </div>
+    </div>
+
+    <!-- 模式 A：纯粹的极简服务大卡片 (类似 Raycast / Launchpad) -->
+    <div id="mode3-nav" class="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+      <div class="group flex flex-col items-center justify-center rounded-2xl border border-border bg-card p-6 text-center hover:border-neutral-500 hover:shadow-lg transition-all cursor-pointer">
+        <div class="flex size-14 items-center justify-center rounded-xl bg-muted text-xl font-bold text-foreground group-hover:scale-110 transition-transform">
+          ☁️
+        </div>
+        <h3 class="mt-3 text-sm font-semibold">Nextcloud</h3>
+        <span class="mt-1 text-xs text-muted-foreground">私有网盘 · 存活</span>
+        <span class="mt-3 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-mono text-emerald-500">HTTP 200</span>
+      </div>
+
+      <div class="group flex flex-col items-center justify-center rounded-2xl border border-border bg-card p-6 text-center hover:border-neutral-500 hover:shadow-lg transition-all cursor-pointer">
+        <div class="flex size-14 items-center justify-center rounded-xl bg-muted text-xl font-bold text-foreground group-hover:scale-110 transition-transform">
+          🍿
+        </div>
+        <h3 class="mt-3 text-sm font-semibold">Jellyfin</h3>
+        <span class="mt-1 text-xs text-muted-foreground">影视串流 · 存活</span>
+        <span class="mt-3 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-mono text-emerald-500">HTTP 200</span>
+      </div>
+
+      <div class="group flex flex-col items-center justify-center rounded-2xl border border-border bg-card p-6 text-center hover:border-neutral-500 hover:shadow-lg transition-all cursor-pointer">
+        <div class="flex size-14 items-center justify-center rounded-xl bg-muted text-xl font-bold text-foreground group-hover:scale-110 transition-transform">
+          🔑
+        </div>
+        <h3 class="mt-3 text-sm font-semibold">Vaultwarden</h3>
+        <span class="mt-1 text-xs text-muted-foreground">密码保险库 · 存活</span>
+        <span class="mt-3 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-mono text-emerald-500">SSL 85天</span>
+      </div>
+
+      <div class="group flex flex-col items-center justify-center rounded-2xl border border-border bg-card p-6 text-center hover:border-neutral-500 hover:shadow-lg transition-all cursor-pointer">
+        <div class="flex size-14 items-center justify-center rounded-xl bg-muted text-xl font-bold text-foreground group-hover:scale-110 transition-transform">
+          🐳
+        </div>
+        <h3 class="mt-3 text-sm font-semibold">Portainer</h3>
+        <span class="mt-1 text-xs text-muted-foreground">Docker 控制台</span>
+        <span class="mt-3 rounded-full bg-emerald-500/10 px-2 py-0.5 text-[10px] font-mono text-emerald-500">14 Containers</span>
+      </div>
+    </div>
+
+    <!-- 模式 B：纯粹的探针运维全屏监控表格 (高信息密度) -->
+    <div id="mode3-monitor" class="space-y-4 hidden">
+      <div class="rounded-xl border border-border bg-card overflow-x-auto">
+        <table class="w-full text-left text-xs">
+          <thead class="border-b border-border bg-muted/40 font-semibold text-muted-foreground">
+            <tr>
+              <th class="p-3">节点状态</th>
+              <th class="p-3">名称与机房</th>
+              <th class="p-3">CPU 使用率</th>
+              <th class="p-3">内存占用</th>
+              <th class="p-3">硬盘挂载</th>
+              <th class="p-3">实时网络</th>
+              <th class="p-3 text-right">在线时长</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-border/40 font-mono">
+            <tr class="hover:bg-muted/20">
+              <td class="p-3"><span class="inline-flex size-2 rounded-full bg-emerald-500 pulse-online"></span></td>
+              <td class="p-3 font-sans font-bold">OCR-AMD2-SG <span class="text-muted-foreground font-normal">(新加坡)</span></td>
+              <td class="p-3 text-emerald-500">14.2%</td>
+              <td class="p-3">352 MB / 1000 MB</td>
+              <td class="p-3">6.9 GB / 48 GB</td>
+              <td class="p-3">↓ 1.4 MB/s · ↑ 820 KB/s</td>
+              <td class="p-3 text-right">9d 4h</td>
+            </tr>
+            <tr class="hover:bg-muted/20">
+              <td class="p-3"><span class="inline-flex size-2 rounded-full bg-emerald-500 pulse-online"></span></td>
+              <td class="p-3 font-sans font-bold">HOME-NAS-01 <span class="text-muted-foreground font-normal">(家庭局域网)</span></td>
+              <td class="p-3 text-emerald-500">28.0%</td>
+              <td class="p-3">4.2 GB / 16 GB</td>
+              <td class="p-3">4.8 TB / 16 TB</td>
+              <td class="p-3">↓ 18.2 MB/s · ↑ 3.1 MB/s</td>
+              <td class="p-3 text-right">42d 12h</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <!-- 交互控制 JS -->
+  <script>
+    // 方案切换
+    function switchScheme(idx) {
+      [1, 2, 3].forEach(i => {
+        const el = document.getElementById(`scheme-${i}`);
+        const tab = document.getElementById(`tab-${i}`);
+        if (i === idx) {
+          el.classList.remove('hidden');
+          tab.classList.add('bg-background', 'text-foreground', 'shadow-xs');
+          tab.classList.remove('text-muted-foreground');
+        } else {
+          el.classList.add('hidden');
+          tab.classList.remove('bg-background', 'text-foreground', 'shadow-xs');
+          tab.classList.add('text-muted-foreground');
+        }
+      });
+    }
+
+    // 主题切换
+    function toggleTheme() {
+      const html = document.documentElement;
+      html.classList.toggle('dark');
+    }
+
+    // 方案1分类过滤
+    function filterCategory(btn, cat) {
+      document.querySelectorAll('.category-btn').forEach(b => {
+        b.classList.remove('active', 'bg-muted', 'text-foreground', 'font-semibold');
+        b.classList.add('text-muted-foreground');
+      });
+      btn.classList.add('active', 'bg-muted', 'text-foreground', 'font-semibold');
+      btn.classList.remove('text-muted-foreground');
+
+      document.querySelectorAll('.service-card').forEach(card => {
+        if (cat === 'all' || card.classList.contains(cat)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    // 方案3内部模式切换
+    function switchMode3(mode) {
+      const navEl = document.getElementById('mode3-nav');
+      const monEl = document.getElementById('mode3-monitor');
+      const btnNav = document.getElementById('subtab-nav');
+      const btnMon = document.getElementById('subtab-monitor');
+
+      if (mode === 'nav') {
+        navEl.classList.remove('hidden');
+        monEl.classList.add('hidden');
+        btnNav.classList.add('bg-background', 'text-foreground', 'shadow-xs');
+        btnNav.classList.remove('text-muted-foreground');
+        btnMon.classList.remove('bg-background', 'text-foreground', 'shadow-xs');
+        btnMon.classList.add('text-muted-foreground');
+      } else {
+        navEl.classList.add('hidden');
+        monEl.classList.remove('hidden');
+        btnMon.classList.add('bg-background', 'text-foreground', 'shadow-xs');
+        btnMon.classList.remove('text-muted-foreground');
+        btnNav.classList.remove('bg-background', 'text-foreground', 'shadow-xs');
+        btnNav.classList.add('text-muted-foreground');
+      }
+    }
+  </script>
+</body>
+</html>

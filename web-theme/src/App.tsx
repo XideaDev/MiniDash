@@ -153,38 +153,43 @@ export default function App() {
   return (
     <div className="min-h-svh">
       {/* 顶部导航栏：精细微倒角磨砂玻璃质感 */}
-      <header className="sticky top-0 z-30 h-13 border-b border-border/80 bg-background/85 backdrop-blur-md transition-colors">
-        <div className="mx-auto flex h-full max-w-[1400px] items-center gap-3 px-4 sm:px-6">
+      {/* 顶部导航栏：macOS 经典毛玻璃沉浸式质感 */}
+      <header className="sticky top-0 z-30 h-14 border-b border-white/10 bg-background/70 backdrop-blur-2xl transition-colors">
+        <div className="mx-auto flex h-full max-w-[1400px] items-center justify-between px-4 sm:px-6">
           {/* 点击站点名返回主列表 */}
           <button
-            className="flex items-center gap-2 font-bold tracking-tight text-foreground transition-opacity hover:opacity-75 active:scale-[0.99]"
+            className="flex items-center gap-2.5 font-bold tracking-tight text-foreground transition-opacity hover:opacity-80 active:scale-[0.99]"
             onClick={() => go(null)}
           >
-            <img src="/favicon.svg" alt="Logo" className="size-4.5 shrink-0" />
-            <span>{me.site_name || "Minidash"}</span>
+            <div className="flex size-7 items-center justify-center rounded-xl bg-card border border-border/80 shadow-xs">
+              <img src="/favicon.svg" alt="Logo" className="size-4 shrink-0" />
+            </div>
+            <span className="text-sm font-semibold tracking-tight">{me.site_name || "Minidash"}</span>
           </button>
-          <div className="flex-1" />
-          {/* 管理后台入口：仅在已登录状态时展示 */}
-          {me.authed && (
-            <Button variant="ghost" size="sm" asChild className="text-xs">
-              <a href="/admin/">
-                <Wrench className="size-3.5" />
-                <span>进入后台</span>
-              </a>
+          
+          <div className="flex items-center gap-2">
+            {/* 管理后台入口：仅在已登录状态时展示 */}
+            {me.authed && (
+              <Button variant="ghost" size="sm" asChild className="h-8 rounded-full border border-border/80 text-xs px-3 font-medium">
+                <a href="/admin/">
+                  <Wrench className="size-3.5 mr-1" />
+                  <span>控制台</span>
+                </a>
+              </Button>
+            )}
+            {/* 深浅色模式切换按钮 */}
+            <Button variant="ghost" size="icon" onClick={toggleTheme} title="切换主题" className="size-8 rounded-full">
+              {dark ? <Sun className="size-4 text-amber-400" /> : <Moon className="size-4 text-neutral-600" />}
             </Button>
-          )}
-          {/* 深浅色模式切换按钮 */}
-          <Button variant="ghost" size="icon" onClick={toggleTheme} title="切换主题" className="size-8">
-            {dark ? <Sun className="size-4 text-warn" /> : <Moon className="size-4" />}
-          </Button>
+          </div>
         </div>
       </header>
 
       {/* 主视图区域：包含平滑动效与响应式栅格 */}
-      <main className="mx-auto max-w-[1400px] space-y-5 px-4 py-5 sm:px-6">
+      <main className="mx-auto max-w-[1400px] space-y-6 px-4 py-6 sm:px-6">
         {/* 全局连接异常警示卡片 */}
         {error && (
-          <div className="animate-fade-in flex items-center justify-between rounded-[2px] border border-destructive/30 bg-destructive/10 px-3.5 py-2 text-xs font-medium text-destructive">
+          <div className="animate-fade-in flex items-center justify-between rounded-2xl border border-destructive/30 bg-destructive/10 px-4 py-2.5 text-xs font-medium text-destructive">
             <span>{error}</span>
           </div>
         )}
@@ -302,7 +307,7 @@ function NodeList({
   return (
     <>
       {/* 顶部操作行：分组切换选项卡与地球仪展开/折叠按钮（粘性置顶展示，页面向下滚动时常驻可见） */}
-      <div className="sticky top-13 z-20 -mt-5 -mx-4 px-4 sm:-mx-6 sm:px-6 py-2 bg-background/85 backdrop-blur-md border-b border-border/60 transition-colors">
+      <div className="sticky top-14 z-20 -mt-6 -mx-4 px-4 sm:-mx-6 sm:px-6 py-2.5 bg-background/70 backdrop-blur-xl border-b border-white/10 transition-colors">
         <div className="flex items-center justify-between gap-2">
           {groups.length > 0 && (
             <div role="group" aria-label="分组" className="-mx-1 flex flex-1 min-w-0 gap-1.5 overflow-x-auto px-1 py-0.5 no-scrollbar">
@@ -312,10 +317,10 @@ function NodeList({
                   aria-pressed={current === value}
                   size="sm"
                   variant={current === value ? "secondary" : "ghost"}
-                  className={`shrink-0 rounded-[2px] transition-all duration-150 ${
+                  className={`shrink-0 rounded-full px-3 py-1 text-xs transition-all duration-200 ${
                     current === value
-                      ? "border-border/80 font-semibold shadow-2xs"
-                      : "opacity-75 hover:opacity-100"
+                      ? "bg-foreground text-background font-semibold shadow-xs"
+                      : "opacity-75 hover:opacity-100 hover:bg-muted"
                   }`}
                   onClick={() => {
                     onGroup(value)
@@ -323,7 +328,7 @@ function NodeList({
                   }}
                 >
                   <span>{label}</span>
-                  <span className="tnum ml-1 rounded-[1px] bg-muted/60 px-1.5 py-0.5 text-xs font-mono text-muted-foreground font-medium">
+                  <span className={`tnum ml-1 rounded-full px-1.5 py-0.5 text-[10px] font-mono font-medium ${current === value ? "bg-background/20 text-background" : "bg-muted text-muted-foreground"}`}>
                     {count}
                   </span>
                 </Button>
@@ -336,7 +341,7 @@ function NodeList({
             <Button
               variant="ghost"
               size="sm"
-              className="h-8 gap-1.5 rounded-[2px] px-2.5 text-xs text-muted-foreground hover:text-foreground border border-border/40"
+              className="h-8 gap-1.5 rounded-full px-3.5 text-xs text-muted-foreground hover:text-foreground border border-border/80"
               onClick={() => setGlobeOpen((v) => !v)}
             >
               <span>{globeOpen ? "收起地球" : "展开地球"}</span>
@@ -360,13 +365,13 @@ function NodeList({
 
       {/* 地区过滤状态提示条 */}
       {selectedRegion && (
-        <div className="flex items-center justify-between rounded-[2px] border border-border/80 bg-muted/30 px-3 py-1.5 text-xs text-muted-foreground animate-fade-in">
+        <div className="flex items-center justify-between rounded-xl border border-border/80 bg-muted/40 px-3.5 py-2 text-xs text-muted-foreground animate-fade-in">
           <span>
             已按地区筛选：<strong className="text-foreground">{selectedRegion}</strong>（共 {shown.length} 台节点）
           </span>
           <button
             onClick={() => setSelectedRegion(null)}
-            className="rounded-[1px] px-1.5 py-0.5 text-xs font-medium text-foreground underline hover:opacity-80"
+            className="rounded-full px-2 py-0.5 text-xs font-medium text-foreground underline hover:opacity-80"
           >
             清除地区筛选
           </button>
@@ -456,17 +461,16 @@ function SeparateNodeGrids({
           ))}
         </div>
       )}
-
       {/* 2. 离线节点分隔栏与网格 */}
       {offline.length > 0 && (
-        <div className="space-y-3 pt-1">
-          <div className="flex items-center justify-between rounded-[2px] border border-border/70 bg-card/60 px-3.5 py-2.5 text-xs shadow-2xs backdrop-blur-xs">
-            <div className="flex items-center gap-2">
-              <span className="size-1.5 rounded-[1px] bg-offline" />
+        <div className="space-y-3 pt-2">
+          <div className="flex items-center justify-between rounded-2xl border border-border/80 bg-card/70 px-4 py-3 text-xs shadow-xs backdrop-blur-md">
+            <div className="flex items-center gap-2.5">
+              <span className="size-2 rounded-full bg-offline" />
               <span className="font-semibold tracking-tight text-foreground">
                 离线节点
               </span>
-              <span className="tnum rounded-[1px] bg-muted/80 px-1.5 py-0.5 text-xs font-mono font-medium text-muted-foreground">
+              <span className="tnum rounded-full bg-muted px-2 py-0.5 text-xs font-mono font-medium text-muted-foreground">
                 {offline.length} 台
               </span>
             </div>

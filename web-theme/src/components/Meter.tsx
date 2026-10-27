@@ -4,7 +4,7 @@ type Props = { label: ReactNode; pct: number | null; foot: ReactNode; empty?: Re
 
 /**
  * 仪表指示条组件（CPU、内存、硬盘、流量等资源占用度量）
- * 遵循 AGENT.md 规范：采用微倒角 rounded-[1px] 替代 rounded-full，打造精密工业仪表风格；
+ * 遵循 AGENT.md 规范：采用微倒角 rounded-full 替代 rounded-full，打造精密工业仪表风格；
  * 指示条宽度变化带有平滑缓动过渡。
  */
 export function Meter({ label, pct, foot, empty = "—" }: Props) {
@@ -19,10 +19,10 @@ export function Meter({ label, pct, foot, empty = "—" }: Props) {
           {pct === null ? empty : `${pct < 10 ? pct.toFixed(1) : pct.toFixed(0)}%`}
         </span>
       </div>
-      {/* 进度条轨道：采用微倒角 rounded-[1px] */}
-      <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-[1px] bg-muted/80 ring-1 ring-border/20">
+      {/* 进度条轨道：采用微倒角 rounded-full */}
+      <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-muted/80 ring-1 ring-border/20">
         <div
-          className="h-full rounded-[1px] bg-foreground transition-[width] duration-500 ease-out"
+          className="h-full rounded-full bg-foreground transition-[width] duration-500 ease-out"
           style={{ width: `${filled}%` }}
         />
       </div>

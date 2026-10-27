@@ -306,7 +306,7 @@ export const LatencyDashboard = memo(function LatencyDashboard({
             />
             削峰显示
           </label>
-          <div className="flex gap-1 rounded-[2px] border border-border/60 bg-muted/30 p-0.5">
+          <div className="flex gap-1 rounded-2xl border border-border/60 bg-muted/30 p-0.5">
             {[
               { key: "combined", label: "聚合对比" },
               { key: "split", label: "分轨矩阵" },
@@ -319,7 +319,7 @@ export const LatencyDashboard = memo(function LatencyDashboard({
                 aria-pressed={view === item.key}
                 onClick={() => setView(item.key as ViewMode)}
                 className={cn(
-                  "rounded-[1px] px-2 py-1 text-xs transition-colors",
+                  "rounded-full px-2 py-1 text-xs transition-colors",
                   view === item.key
                     ? "bg-primary text-primary-foreground"
                     : "text-muted-foreground hover:text-foreground",
@@ -353,7 +353,7 @@ export const LatencyDashboard = memo(function LatencyDashboard({
           <section
             key={series.id}
             className={cn(
-              "min-w-0 rounded-[2px] border border-border/70 bg-card/60 p-3 transition-opacity",
+              "min-w-0 rounded-2xl border border-border/70 bg-card/60 p-3 transition-opacity",
               hidden.includes(series.id) && "opacity-45",
             )}
           >
@@ -422,7 +422,7 @@ export const LatencyDashboard = memo(function LatencyDashboard({
       )}
       {/* 独立的全窗口缩放条避免卸载视图后 Brush 与保存的缩放状态分离。 */}
       {rows.length > 1 && view !== "ranking" && (
-        <div className="rounded-[2px] border border-border/60 bg-card/60 p-3">
+        <div className="rounded-2xl border border-border/60 bg-card/60 p-3">
           <div className="mb-2 flex justify-between text-[11px] text-muted-foreground">
             <span>
               时序图时间缩放 · {new Date(from * 1000).toLocaleString("zh-CN")} —{" "}
@@ -478,7 +478,7 @@ export const LatencyDashboard = memo(function LatencyDashboard({
         {shown.length === 0 ? (
           noSelection
         ) : view === "combined" ? (
-          <section className="rounded-[2px] border border-border/70 bg-card/60 p-3">
+          <section className="rounded-2xl border border-border/70 bg-card/60 p-3">
             {chart(shown, "h-80")}
           </section>
         ) : view === "split" ? (
@@ -486,7 +486,7 @@ export const LatencyDashboard = memo(function LatencyDashboard({
             {shown.map((series) => (
               <section
                 key={series.id}
-                className="min-w-0 rounded-[2px] border border-border/70 bg-card/60 p-3"
+                className="min-w-0 rounded-2xl border border-border/70 bg-card/60 p-3"
               >
                 <h3 className="mb-2 text-xs font-semibold">{series.name} · 独立 Y 轴</h3>
                 {chart([series], "h-48")}
@@ -558,7 +558,7 @@ export const LatencyDashboard = memo(function LatencyDashboard({
             所选线路没有成功探测数据，无法计算延迟排行。
           </div>
         ) : (
-          <section className="rounded-[2px] border border-border/70 bg-card/60 p-3">
+          <section className="rounded-2xl border border-border/70 bg-card/60 p-3">
             <p className="mb-3 text-[11px] text-muted-foreground">
               按桶中位均值排序；结合失败率及采样新鲜度判断，不能据此直接排名线路质量。
             </p>

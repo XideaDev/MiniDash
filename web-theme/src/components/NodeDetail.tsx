@@ -190,7 +190,7 @@ export function NodeDetail({ node, historyDays }: { node: Node; historyDays: num
       <NodeSpecs node={node} />
       <LiveTelemetryBoard node={node} />
       <div className="flex flex-wrap items-center justify-between gap-2 border-t border-border/70 pt-3">
-        <div className="flex gap-1 rounded-[2px] border border-border/70 bg-muted/30 p-0.5">
+        <div className="flex gap-1 rounded-2xl border border-border/70 bg-muted/30 p-0.5">
           {[
             { key: "resources", label: "资源" },
             { key: "latency", label: "网络延迟" },
@@ -200,7 +200,7 @@ export function NodeDetail({ node, historyDays }: { node: Node; historyDays: num
               key={item.key}
               aria-pressed={tab === item.key}
               onClick={() => setTab(item.key as typeof tab)}
-              className={`rounded-[1px] px-3 py-1 text-xs transition-colors ${tab === item.key ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
+              className={`rounded-full px-3 py-1 text-xs transition-colors ${tab === item.key ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}
             >
               {item.label}
             </button>
@@ -213,7 +213,7 @@ export function NodeDetail({ node, historyDays }: { node: Node; historyDays: num
               key={range.hours}
               aria-pressed={hours === range.hours}
               onClick={() => setPicked((all) => ({ ...all, [tab]: range.hours }))}
-              className={`shrink-0 rounded-[1px] px-2 py-1 text-xs transition-colors ${hours === range.hours ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
+              className={`shrink-0 rounded-full px-2 py-1 text-xs transition-colors ${hours === range.hours ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"}`}
             >
               {range.label}
             </button>
@@ -243,7 +243,7 @@ export function NodeDetail({ node, historyDays }: { node: Node; historyDays: num
       {selected.error && (
         <div
           role="alert"
-          className="rounded-[2px] border border-destructive/30 bg-destructive/5 p-3 text-xs text-destructive"
+          className="rounded-2xl border border-destructive/30 bg-destructive/5 p-3 text-xs text-destructive"
         >
           读取历史数据失败：{selected.error}
           {selected.snapshot && "。下方保留上次成功的快照。"}
