@@ -87,7 +87,7 @@ export function Country({ node }: { node: Node }) {
       src={src}
       alt={node.country}
       title={node.country}
-      className="h-3 w-4.5 shrink-0 rounded-xs shadow-2xs ring-1 ring-foreground/10"
+      className="h-3 w-4.5 shrink-0 rounded-sm shadow-xs ring-1 ring-foreground/10"
     />
   )
 }

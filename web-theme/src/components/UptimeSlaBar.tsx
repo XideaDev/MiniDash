@@ -166,7 +166,7 @@ export function UptimeSlaBarSkeleton({ hours = 24 }: { hours?: number }) {
           {Array.from({ length: 48 }).map((_, i) => (
             <div
               key={i}
-              className="flex-1 rounded-[0.5px] bg-muted/60 animate-pulse"
+              className="flex-1 rounded-full bg-muted/60 animate-pulse"
               style={{ animationDelay: `${(i % 12) * 50}ms` }}
             />
           ))}
@@ -177,8 +177,8 @@ export function UptimeSlaBarSkeleton({ hours = 24 }: { hours?: number }) {
       <div className="mt-2 flex items-center justify-between text-[10px] font-mono text-muted-foreground/80">
         <span>{hours >= 24 ? `${Math.round(hours / 24)} 天前` : `${hours} 小时前`}</span>
         <span className="flex items-center gap-1">
-          <span className="size-1.5 rounded-[0.5px] bg-muted inline-block" />
-          <Skeleton className="h-2.5 w-12 rounded-[0.5px]" />
+          <span className="size-1.5 rounded-full bg-muted inline-block" />
+          <Skeleton className="h-2.5 w-12 rounded-full" />
         </span>
         <span>当前</span>
       </div>

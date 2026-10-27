@@ -52,7 +52,7 @@ export function AppHeader({
                         go(to)
                         setMobileOpen(false)
                       }}
-                      className={`flex w-full items-center gap-2.5 rounded-[2px] px-3 py-2 text-xs font-medium transition-colors ${
+                      className={`flex w-full items-center gap-2.5 rounded-md px-3 py-2 text-xs font-medium transition-colors ${
                         active
                           ? "bg-primary text-primary-foreground font-semibold"
                           : "text-muted-foreground hover:bg-muted hover:text-foreground"
@@ -87,7 +87,7 @@ export function AppHeader({
         >
           <Search className="size-3.5 opacity-60" />
           <span className="hidden sm:inline">搜索节点或指令...</span>
-          <kbd className="hidden rounded-xs border border-border/80 bg-background/80 px-1.5 py-0.5 font-mono text-[10px] sm:inline-block">
+          <kbd className="hidden rounded-sm border border-border/80 bg-background/80 px-1.5 py-0.5 font-mono text-[10px] sm:inline-block">
             ⌘K
           </kbd>
         </button>

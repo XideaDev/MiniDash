@@ -466,7 +466,7 @@ export function Globe({
                   <img
                     src={FLAGS[activeCard.region.country]}
                     alt={activeCard.region.country}
-                    className="h-3 w-4 rounded-xs object-cover shrink-0"
+                    className="h-3 w-4 rounded-sm object-cover shrink-0"
                   />
                 )}
                 <span className="truncate">
@@ -556,7 +556,7 @@ export function Globe({
                         <img
                           src={flagUrl}
                           alt={reg.country}
-                          className="h-3 w-4 rounded-xs object-cover shrink-0"
+                          className="h-3 w-4 rounded-sm object-cover shrink-0"
                         />
                       )}
                       <span className="truncate text-xs font-medium text-foreground">

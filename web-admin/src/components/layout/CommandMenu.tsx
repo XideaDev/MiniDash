@@ -78,7 +78,7 @@ export function CommandMenu({
                   />
                   <span>{node.name}</span>
                   {node.group && (
-                    <span className="rounded-xs border border-border/80 bg-muted/50 px-1 py-0.5 text-[10px] text-muted-foreground">
+                    <span className="rounded-sm border border-border/80 bg-muted/50 px-1.5 py-0.5 text-[10px] text-muted-foreground">
                       {node.group}
                     </span>
                   )}

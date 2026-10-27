@@ -141,7 +141,7 @@ export default function App() {
         </div>
       ) : (
         <div className="flex items-center gap-2">
-          <span className="size-2 rounded-[1px] bg-foreground/60 pulse-online" />
+          <span className="size-2 rounded-full bg-foreground/60 pulse-online" />
           <span>正在连接监控节点…</span>
         </div>
       )}
