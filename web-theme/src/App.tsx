@@ -128,7 +128,7 @@ export default function App() {
 
   // 动态同步网页 Title
   useEffect(() => {
-    document.title = [selected?.name, me?.site_name || "Monitor"].filter(Boolean).join(" · ")
+    document.title = [selected?.name, me?.site_name || "Minidash"].filter(Boolean).join(" · ")
   }, [selected?.name, me?.site_name])
 
   // 首屏未加载完成时的占位骨架
@@ -161,7 +161,7 @@ export default function App() {
             onClick={() => go(null)}
           >
             <img src="/favicon.svg" alt="Logo" className="size-4.5 shrink-0" />
-            <span>{me.site_name || "Monitor"}</span>
+            <span>{me.site_name || "Minidash"}</span>
           </button>
           <div className="flex-1" />
           {/* 管理后台入口：仅在已登录状态时展示 */}

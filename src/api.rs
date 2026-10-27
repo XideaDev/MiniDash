@@ -974,7 +974,7 @@ pub async fn me(State(app): State<Shared>, headers: HeaderMap) -> Json<Value> {
     Json(json!({
         "authed": authed(&app, &headers),
         "github": app.db.get("github_client_id").is_some_and(|v| !v.is_empty()),
-        "site_name": app.db.get("site_name").unwrap_or_else(|| "Monitor".into()),
+        "site_name": app.db.get("site_name").unwrap_or_else(|| "Minidash".into()),
         "public_page": app.public_page(),
         // How far back a chart may reach, so a theme offers only windows the hub
         // answers in full; `metrics` narrows a wider one without saying so.
