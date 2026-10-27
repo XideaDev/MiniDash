@@ -19,10 +19,10 @@ export function Meter({ label, pct, foot, empty = "—" }: Props) {
           {pct === null ? empty : `${pct < 10 ? pct.toFixed(1) : pct.toFixed(0)}%`}
         </span>
       </div>
-      {/* 进度条轨道：采用微倒角 rounded-full */}
-      <div className="mt-1.5 h-1.5 w-full overflow-hidden rounded-full bg-muted/80 ring-1 ring-border/20">
+      {/* 进度条轨道：采用 Apple 原生胶囊 Pill 轨道 */}
+      <div className="mt-2 h-2 w-full overflow-hidden rounded-full bg-muted/60">
         <div
-          className="h-full rounded-full bg-foreground transition-[width] duration-500 ease-out"
+          className="h-full rounded-full bg-foreground/90 transition-[width] duration-500 ease-out"
           style={{ width: `${filled}%` }}
         />
       </div>

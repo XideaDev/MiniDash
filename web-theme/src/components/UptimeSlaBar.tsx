@@ -86,7 +86,7 @@ export function UptimeSlaBar({ metrics, step = 60, hours, nowTs }: UptimeSlaBarP
                 onMouseEnter={() => setHovered(seg)}
                 onMouseLeave={() => setHovered(null)}
                 className={cn(
-                  "flex-1 cursor-pointer rounded-[0.5px] transition-all hover:scale-y-110",
+                  "flex-1 cursor-pointer rounded-full transition-all hover:scale-y-125 duration-150",
                   barBg,
                 )}
               />

@@ -54,19 +54,19 @@ export function NodeFilterBar({
   const isFiltered = search.trim() !== "" || status !== "all" || sort !== "default"
 
   return (
-    <div className="flex flex-col gap-2 rounded-2xl border border-border/70 bg-card/70 p-2 text-xs shadow-2xs backdrop-blur-xs transition-colors sm:flex-row sm:items-center sm:justify-between">
-      {/* 左侧：搜索框、状态快筛与筛选结果提示（置于排序选择器左侧，防止右侧 select 框抖动） */}
-      <div className="flex flex-1 flex-wrap items-center gap-2 min-w-0">
+    <div className="flex flex-col gap-2.5 rounded-2xl border border-border/80 bg-card/70 p-2.5 text-xs shadow-xs backdrop-blur-md transition-colors sm:flex-row sm:items-center sm:justify-between">
+      {/* 左侧：搜索框、状态快筛与筛选结果提示 */}
+      <div className="flex flex-1 flex-wrap items-center gap-2.5 min-w-0">
         {/* 1. 关键字搜索输入框 */}
-        <div className="relative flex min-w-[180px] flex-1 items-center sm:max-w-[260px]">
-          <Search className="pointer-events-none absolute left-2 size-3.5 text-muted-foreground" />
+        <div className="relative flex min-w-[180px] flex-1 items-center sm:max-w-[280px]">
+          <Search className="pointer-events-none absolute left-3 size-3.5 text-muted-foreground" />
           <input
             id={searchInputId}
             type="text"
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="搜索节点名 / 架构 / 地区 / 备注..."
-            className="h-7 w-full rounded-2xl border border-border/70 bg-muted/40 pl-7 pr-7 text-xs text-foreground placeholder:text-muted-foreground/60 transition-colors focus:border-primary/80 focus:bg-background focus:outline-hidden"
+            placeholder="搜索节点 / 架构 / 地区 / 备注..."
+            className="h-8.5 w-full rounded-full border border-border/80 bg-muted/30 pl-8.5 pr-8 text-xs text-foreground placeholder:text-muted-foreground/60 transition-colors focus:border-foreground/30 focus:bg-background focus:outline-hidden"
           />
           {search && (
             <button
@@ -81,14 +81,14 @@ export function NodeFilterBar({
         </div>
 
         {/* 2. 在线/离线状态快速胶囊过滤 */}
-        <div className="flex items-center gap-0.5 rounded-2xl border border-border/60 bg-muted/30 p-0.5 shrink-0">
+        <div className="flex items-center gap-1 rounded-full border border-border/60 bg-muted/40 p-1 shrink-0">
           <button
             type="button"
             onClick={() => onStatusChange("all")}
             className={cn(
-              "rounded-full px-2 py-0.5 font-medium transition-colors",
+              "rounded-full px-3 py-1 font-medium text-xs transition-all",
               status === "all"
-                ? "bg-primary text-primary-foreground shadow-2xs"
+                ? "bg-foreground text-background shadow-xs font-semibold"
                 : "text-muted-foreground hover:text-foreground",
             )}
           >
@@ -98,9 +98,9 @@ export function NodeFilterBar({
             type="button"
             onClick={() => onStatusChange("online")}
             className={cn(
-              "rounded-full px-2 py-0.5 font-medium transition-colors",
+              "rounded-full px-3 py-1 font-medium text-xs transition-all",
               status === "online"
-                ? "bg-primary text-primary-foreground shadow-2xs"
+                ? "bg-foreground text-background shadow-xs font-semibold"
                 : "text-muted-foreground hover:text-foreground",
             )}
           >
@@ -111,9 +111,9 @@ export function NodeFilterBar({
               type="button"
               onClick={() => onStatusChange("offline")}
               className={cn(
-                "rounded-full px-2 py-0.5 font-medium transition-colors",
+                "rounded-full px-3 py-1 font-medium text-xs transition-all",
                 status === "offline"
-                  ? "bg-warn text-warn-foreground shadow-2xs"
+                  ? "bg-warn text-warn-foreground shadow-xs font-semibold"
                   : "text-warn hover:underline",
               )}
             >
@@ -150,7 +150,7 @@ export function NodeFilterBar({
           value={sort}
           onChange={(e) => onSortChange(e.target.value as SortMode)}
           style={{ backgroundColor: "var(--color-card)", color: "var(--color-foreground)" }}
-          className="h-7 rounded-2xl border border-border/70 bg-card px-2 py-0.5 font-medium text-foreground transition-colors hover:border-border focus:border-primary/80 focus:outline-hidden cursor-pointer"
+          className="h-8.5 rounded-full border border-border/80 bg-card px-3 py-1 font-medium text-xs text-foreground transition-colors hover:border-border focus:border-foreground/40 focus:outline-hidden cursor-pointer"
         >
           {SORT_OPTIONS.map((opt) => (
             <option
