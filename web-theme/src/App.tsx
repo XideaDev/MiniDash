@@ -155,7 +155,7 @@ export default function App() {
       {/* 顶部导航栏：精细微倒角磨砂玻璃质感 */}
       {/* 顶部导航栏：macOS 经典毛玻璃沉浸式质感 */}
       <header className="sticky top-0 z-30 h-14 border-b border-white/10 bg-background/70 backdrop-blur-2xl transition-colors">
-        <div className="mx-auto flex h-full max-w-[1400px] items-center justify-between px-4 sm:px-6">
+        <div className="mx-auto flex h-full max-w-[1200px] items-center justify-between px-4 sm:px-6">
           {/* 点击站点名返回主列表 */}
           <button
             className="flex items-center gap-2.5 font-bold tracking-tight text-foreground transition-opacity hover:opacity-80 active:scale-[0.99]"
@@ -186,7 +186,7 @@ export default function App() {
       </header>
 
       {/* 主视图区域：包含平滑动效与响应式栅格 */}
-      <main className="mx-auto max-w-[1400px] space-y-6 px-4 py-6 sm:px-6">
+      <main className="mx-auto max-w-[1200px] space-y-6 px-4 py-6 sm:px-6">
         {/* 全局连接异常警示卡片 */}
         {error && (
           <div className="animate-fade-in flex items-center justify-between rounded-2xl border border-destructive/30 bg-destructive/10 px-4 py-2.5 text-xs font-medium text-destructive">
