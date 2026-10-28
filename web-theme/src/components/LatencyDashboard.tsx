@@ -496,7 +496,7 @@ export const LatencyDashboard = memo(function LatencyDashboard({
         ) : view === "loss" ? (
           <div className="minidash-chart-grid">
             {shown.map((series) => (
-              <section key={series.id} className="min-w-0 border border-border/70 bg-card/60 p-3">
+              <section key={series.id} className="min-w-0 rounded-2xl border border-border/80 bg-card/80 p-4 shadow-xs backdrop-blur-md">
                 <h3 className="mb-2 text-xs font-semibold">{series.name} · TCP 探测失败率</h3>
                 <p className="mb-3 text-[11px] text-muted-foreground">
                   窗口失败率 {series.loss === null ? "未知" : `${series.loss.toFixed(2)}%`} ·

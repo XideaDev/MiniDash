@@ -270,7 +270,7 @@ export function Globe({
         <div
           ref={containerRef}
           onClick={() => setActiveCard(null)}
-          className="relative z-30 col-span-12 flex items-center justify-center rounded-2xl border border-border/40 bg-muted/15 p-2 select-none lg:col-span-8"
+          className="relative z-30 col-span-12 flex items-center justify-center rounded-3xl border border-border/80 bg-muted/20 overflow-hidden p-2 select-none lg:col-span-8"
         >
           <svg
             viewBox={`0 0 ${FLAT_MAP_VIEW.width} ${FLAT_MAP_VIEW.height}`}
@@ -301,21 +301,21 @@ export function Globe({
             </defs>
 
             {/* 1. 地图背景底盘（点击可关闭当前浮层卡片） */}
+            {/* 1. 地图背景底盘（柔和无边框大圆角画布，杜绝直角与硬边线） */}
             <rect
               x="0"
               y="0"
               width={FLAT_MAP_VIEW.width}
               height={FLAT_MAP_VIEW.height}
               fill="url(#mapOceanGrad)"
-              stroke="var(--color-border)"
-              strokeWidth="0.8"
-              rx="2"
+              rx="16"
+              ry="16"
               className="cursor-default"
               onClick={() => setActiveCard(null)}
             />
 
             {/* 2. 工控经纬网格 */}
-            <g stroke="var(--color-border)" strokeWidth="0.5" opacity="0.4" fill="none">
+            <g stroke="var(--color-border)" strokeWidth="0.5" opacity="0.15" fill="none">
               {graticules.meridians.map((m, i) => (
                 <path key={`mer-${i}`} d={m.d} />
               ))}
@@ -325,7 +325,7 @@ export function Globe({
             </g>
 
             {/* 赤道与本初子午线基准强调线 */}
-            <g stroke="var(--color-border)" strokeWidth="0.85" opacity="0.65" fill="none">
+            <g stroke="var(--color-border)" strokeWidth="0.7" opacity="0.25" fill="none">
               <path d={graticules.equator} strokeDasharray="4 2" />
               <path d={graticules.primeMeridian} strokeDasharray="4 2" />
             </g>
@@ -539,7 +539,7 @@ export function Globe({
               <div
                 key={reg.key}
                 className={cn(
-                  "flex flex-col rounded-2xl border transition-colors",
+                  "flex flex-col rounded-xl border p-1 transition-all duration-200",
                   isSelected
                     ? "border-primary/80 bg-primary/10 text-foreground ring-1 ring-primary/30"
                     : "border-border/40 bg-muted/20 text-muted-foreground hover:border-border hover:bg-muted/40 hover:text-foreground"

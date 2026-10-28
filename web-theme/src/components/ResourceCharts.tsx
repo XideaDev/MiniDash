@@ -593,12 +593,14 @@ export function ResourceCharts({ node, metrics, hours, step = 60, nowTs }: Resou
             ].map((item) => (
               <section
                 key={item.label}
-                className="min-w-0 border border-border/70 bg-card/60 p-3"
-                style={{ borderTopColor: item.color }}
+                className="min-w-0 rounded-2xl border border-border/80 bg-card/80 p-4 shadow-xs backdrop-blur-md transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
               >
-                <p className="text-[11px] text-muted-foreground">{item.label}</p>
-                <p className="my-2 truncate font-mono text-xl font-semibold">{item.value}</p>
-                <p className="text-[10px] text-muted-foreground">{item.note}</p>
+                <div className="flex items-center gap-1.5 text-xs text-muted-foreground font-medium">
+                  <span className="size-2 rounded-full shrink-0" style={{ backgroundColor: item.color }} />
+                  <span>{item.label}</span>
+                </div>
+                <p className="my-2 truncate font-sans text-2xl font-bold tracking-tight text-foreground tnum">{item.value}</p>
+                <p className="text-[11px] text-muted-foreground">{item.note}</p>
               </section>
             ))}
           </div>
@@ -750,7 +752,7 @@ export function ResourceCharts({ node, metrics, hours, step = 60, nowTs }: Resou
                   <div className="text-[10px] text-muted-foreground">
                     覆盖 {bucket.coverage.toFixed(0)}%
                   </div>
-                  <span className="pointer-events-none absolute bottom-full left-1/2 z-20 hidden w-64 max-w-[calc(100vw-3rem)] -translate-x-1/2 border border-border bg-card p-2 text-left text-[11px] text-card-foreground shadow-sm group-hover:block group-focus-within:block">
+                  <span className="pointer-events-none absolute bottom-full left-1/2 z-20 hidden w-64 max-w-[calc(100vw-3rem)] -translate-x-1/2 rounded-xl border border-border/80 bg-card/95 p-2.5 text-left text-[11px] text-card-foreground shadow-xl backdrop-blur-md group-hover:block group-focus-within:block">
                     {moment(bucket.start)} — {moment(bucket.end)}
                     <br />
                     {heatItem.name} 均值 {display(heatValue(bucket), heatFormat)}
